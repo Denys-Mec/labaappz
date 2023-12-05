@@ -2,13 +2,15 @@ import '../style/general.css';
 import "../style/signin.css"
 import Header from "../components/Header";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const SignIn = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    function handleSubmit(event) {
-        alert(`Your login is: ${login}`);
-        event.preventDefault();
+    let navigate = useNavigate();
+
+    function handleSubmit() {
+        navigate('/home');
     }
 
     return (

@@ -1,11 +1,11 @@
 import Navbar from "../components/Navbar";
 
-const ChatBot = () => {
+const Questions = () => {
     return (
         <div>
-            <Navbar />
+            <Navbar/>
         </div>
     );
 };
 
-export default ChatBot;
+export default Questions;

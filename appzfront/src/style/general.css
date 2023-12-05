@@ -3,6 +3,8 @@
 }
 
 body {
+    padding: 0;
+    margin: 0;
     background-color: #F4F4F4;
 }
 
@@ -13,4 +15,10 @@ body {
     font-size: 24px;
     font-weight: 700;
     padding: 15px;
+    cursor: pointer;
+}
+
+.gen-btn:hover {
+    background-color: #4B7247;
+    transition: 0.1s;
 }
