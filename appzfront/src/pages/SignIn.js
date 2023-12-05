@@ -10,11 +10,11 @@ const SignIn = () => {
     let navigate = useNavigate();
 
     function handleSubmit() {
-        navigate('/home');
+        navigate('/questionnaires');
     }
 
     return (
-        <div>
+        <div className={"content"}>
             <Header content={"Вхід"}/>
             <form className={"sign-in-form"} onSubmit={handleSubmit}>
                 <label className={"sign-in-form-label"}>Логін</label>

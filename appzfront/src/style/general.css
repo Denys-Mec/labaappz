@@ -22,3 +22,21 @@ body {
     background-color: #4B7247;
     transition: 0.1s;
 }
+
+.tippy-box[data-theme~="custom"] {
+    background-color: #FFD5A4;
+    color: black;
+}
+
+.tippy-box[data-theme~="custom"] .tippy-arrow {
+    color: #ffd5a4;
+}
+
+.page {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.content {
+    padding: 0 50px;
+}
