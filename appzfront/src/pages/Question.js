@@ -1,7 +1,7 @@
 // Question.js
 import React, { useState } from 'react';
 import '../style/general.css';
-import "../style/signin.css"
+import "../style/questions.css"
 
 const Question = ({ id, question, answer, onAnswerChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,7 +28,7 @@ const Question = ({ id, question, answer, onAnswerChange }) => {
             <button  >{'▶'}</button>
             <input
               type={'text'}
-              value="sdkjslkf"
+              value={answer}
               onChange={(e) => onAnswerChange(id, e.target.value)}
               readonly
             />

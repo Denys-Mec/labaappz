@@ -37,9 +37,13 @@ body {
     
   }
   
-.content {
-    padding: 0 50px;
+.content,   
+.content-page {
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.content{
+    padding: 0 50px;
 }

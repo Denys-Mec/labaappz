@@ -54,14 +54,16 @@ const ChatBotPage = () => {
   return (
     <div className={'page'}>
       <Navbar />
-      <div className={'content'}>
+      <div className={'content-page'}>
+        <div className='content'>
             <Header content={'Чат-бот'} />
             <ChatBot />
         </div>
         <div className="footer">
-        <button className="footer-button">Список питань</button>
-        <button className="footer-button">Своє питання</button>
-      </div>
+                <button className="footer-button">Список питань</button>
+                <button className="footer-button">Своє питання</button>
+        </div>
+        </div>
     </div>
   );
 };

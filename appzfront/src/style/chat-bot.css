@@ -1,5 +1,5 @@
-/* Add this style to make the chat-bot container a flex column */
-.chat-bot {
+  /* Add this style to make the chat-bot container a flex column */
+  .chat-bot {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -82,4 +82,3 @@
   .footer-button {
     margin-right: 15px;
   }
-
