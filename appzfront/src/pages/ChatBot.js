@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
-import '../style/chat-bot.css'; // Import the CSS file for styling
+import '../style/general.css';
+import '../style/chat-bot.css'; 
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -43,7 +44,7 @@ const ChatBot = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button onClick={handleSendMessage}>Відправити</button>
+        <button className='chat-bot-button' onClick={handleSendMessage}>Відправити</button>
       </div>
     </div>
   );
@@ -54,14 +55,12 @@ const ChatBotPage = () => {
     <div className={'page'}>
       <Navbar />
       <div className={'content'}>
-        <div className={'content-page'}>
             <Header content={'Чат-бот'} />
             <ChatBot />
         </div>
         <div className="footer">
         <button className="footer-button">Список питань</button>
         <button className="footer-button">Своє питання</button>
-      </div>
       </div>
     </div>
   );

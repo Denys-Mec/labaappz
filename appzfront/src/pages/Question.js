@@ -1,5 +1,8 @@
 // Question.js
 import React, { useState } from 'react';
+import '../style/general.css';
+import "../style/signin.css"
+
 const Question = ({ id, question, answer, onAnswerChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 

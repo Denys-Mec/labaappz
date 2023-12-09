@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
-import Question from '../pages/Question'; // Import the Question component
+import Question from '../pages/Question'; 
+import '../style/general.css';
+import "../style/questions.css"
 
 const Questions = () => {
   // State to manage questions and their responses
@@ -29,7 +31,7 @@ const Questions = () => {
   return (
     <div className={'page'}>
       <Navbar />
-      <div className={'content-page'}>
+      <div className={'content'}>
         <Header content={'Допомога'} />
         {/* Render questions using the Question component */}
         <div className={'questions-container'}>
