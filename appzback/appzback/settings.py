@@ -10,6 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,18 +57,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'appzback.wsgi.application'
-
 ASGI_APPLICATION = "appzback.asgi.application"
 
 CHANNEL_LAYERS = {
     'default': {
-        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        # 'CONFIG': 
-        #{
-        #     "hosts": [('127.0.0.1', 6379)],
-        #},
-        'BACKEND': "channels.layers.InMemoryChannelLayer",  
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': 
+        {
+            "hosts": [('127.0.0.1', 6379)],
+        },
     },
 }
 

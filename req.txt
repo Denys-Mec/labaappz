@@ -3,4 +3,6 @@ pip install djangorestframework
 pip install markdown
 pip install django-filter
 pip install django-cors-headers
-python manage.py runserver
+python -m pip install -U 'channels[daphne]'
+
+Needs to install Memurai for chat: https://www.memurai.com/

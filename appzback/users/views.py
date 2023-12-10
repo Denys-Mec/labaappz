@@ -77,5 +77,13 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def get(self, request, format=None):
-        csrf_token = csrf.get_token(request)
-        return Response({ 'success': 'CSRF cookie set', 'csrf_token': csrf_token })
+        return Response({ 'success': 'CSRF cookie set' })
+
+
+        
+#@api_view(['GET'])
+class GetUserLists(APIView):
+    def user_list(request, ):
+        users = User.objects.all().order_by('username')
+        serializer = UserSerializer(instance=users, many=True)
+        return Response(serializer.data)
