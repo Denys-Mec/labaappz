@@ -1,7 +1,6 @@
 import '../style/general.css';
 import "../style/signin.css"
 import Header from "../components/Header";
-import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 const SignIn = () => {
@@ -11,6 +10,27 @@ const SignIn = () => {
 
     function handleSubmit() {
         navigate('/questionnaires');
+    }
+
+    function getCookieToken() {
+        fetch("http://127.0.0.1:8000/api/accounts/csrf_cookie")
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.csrf_token)
+                fetch('http://127.0.0.1:8000/api/accounts/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': data.csrf_token
+                    },
+                    body: JSON.stringify({
+                        "username": "denys", "password": "labaappz"
+                    })
+                }).then(res => {
+                    console.log(res)
+                });
+            })
+            .catch(error => console.error("Error fetching CSRF token:", error));
     }
 
     return (
@@ -23,6 +43,7 @@ const SignIn = () => {
                 <input className={"sign-in-form-input"} type={"password"} value={password} onChange={(e) => setPassword(e.target.value)}/>
                 <button className={"gen-btn sign-in-form-btn"} type={"submit"}>Увійти</button>
             </form>
+            <button onClick={getCookieToken}>Test</button>
         </div>
     );
 };

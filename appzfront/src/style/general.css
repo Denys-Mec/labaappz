@@ -15,6 +15,7 @@ body {
     font-weight: 700;
     padding: 15px;
     cursor: pointer;
+    border: none;
 }
 
 .gen-btn:hover {
@@ -34,10 +35,10 @@ body {
 .page {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    
+
   }
-  
-.content,   
+
+.content,
 .content-page {
     height: 100%;
     display: flex;

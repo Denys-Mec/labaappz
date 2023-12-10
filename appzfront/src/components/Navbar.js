@@ -47,7 +47,7 @@ const Navbar = () => {
                         <Link className={"expanded-nav-item"} to={"/chatbot"}>Чат-бот</Link>
                     </div>
                 )}
-                <Link className={"nav-item"} to="">
+                <Link className={"nav-item"} to="/">
                     Вихід
                 </Link>
             </nav>

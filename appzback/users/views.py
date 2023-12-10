@@ -14,6 +14,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from rest_framework import permissions
 from rest_framework.response import Response
 from django.contrib import auth
+from django.middleware import csrf
 
 class ProfileApiView(viewsets.ModelViewSet):
 	queryset = Profile.objects.all()
@@ -53,6 +54,10 @@ class LoginView(APIView):
         try:
             user = auth.authenticate(username=username, password=password)
 
+#             response = JsonResponse({'message': 'success'})
+#             response['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5000'
+#             return response
+
             if user is not None:
                 auth.login(request, user)
                 return Response({ 'success': 'User authenticated' })
@@ -74,4 +79,5 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def get(self, request, format=None):
-        return Response({ 'success': 'CSRF cookie set' })
+        csrf_token = csrf.get_token(request)
+        return Response({ 'success': 'CSRF cookie set', 'csrf_token': csrf_token })

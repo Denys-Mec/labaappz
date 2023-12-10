@@ -1,0 +1,20 @@
+.questionnaires-list {
+    font-size: 24px;
+    list-style: none;
+    color: #31524B;
+    padding: 0;
+    margin: 0;
+}
+
+.questionnaires-list li {
+    background: url('https://img.icons8.com/ios-glyphs/30/play--v1.png') no-repeat left center;
+    background-size: 25px;
+    margin: 15px;
+    padding: 5px 0 5px 40px;
+    cursor: pointer;
+}
+
+.questionnaires-list li:hover {
+    background-color: #CDE1CB;
+    transition: 0.1s;
+}

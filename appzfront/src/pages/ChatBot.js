@@ -44,7 +44,7 @@ const ChatBot = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button className='chat-bot-button' onClick={handleSendMessage}>Відправити</button>
+        <button className='gen-btn' onClick={handleSendMessage}>Відправити</button>
       </div>
     </div>
   );
