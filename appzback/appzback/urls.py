@@ -19,7 +19,7 @@ router.register(r'api/accounts/profile', ProfileApiView)
 
 
 urlpatterns = [
-    path("chat/", include("lab.urls")),
+    #path("chat/", include("lab.urls")),
 	path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
@@ -30,8 +30,8 @@ urlpatterns = [
     path('api/accounts/csrf_cookie', GetCSRFToken.as_view()),
     #path('api/messages/rate', RateMessageApiView.as_view()),
     #path('api/messages/send', SendMessageApiView.as_view())
-    path('api/conversations', Conversations.as_view()),
-    path('api/<int:convo_id>/', GetConversation.as_view()),
-    path('api/start/', StartConvoAPIView.as_view()),
+    #path('api/conversations', Conversations.as_view()),
+    #path('api/<int:convo_id>/', GetConversation.as_view()),
+    path('api/chat/', StartConvoAPIView.as_view()),
     path('api/users/', GetUserLists.as_view())
 ]

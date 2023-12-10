@@ -13,7 +13,7 @@ from django.core.validators import MaxValueValidator
 class Conversation(models.Model):
     initiator = models.ForeignKey (User, on_delete=models.SET_NULL, null=True, related_name="convo_starter")
     receiver = models.ForeignKey (User, on_delete=models.SET_NULL, null=True, related_name="convo_participant")
-    start_time = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(auto_now_add=True, null=True)
 
 # class Message(models.Model):
 #     sender = models.ForeignKey(User, on_delete=models.SET_NULL,
@@ -29,12 +29,12 @@ class Conversation(models.Model):
 #Messages
 class BotMessage(models.Model):
 
-    conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE,)
     message = models.TextField(default='')
     is_user = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     rating = models.PositiveIntegerField(default = 0, validators=[MaxValueValidator(10)])
     time = models.DateTimeField(auto_now_add=True, null=True)
+    conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ('-time',)

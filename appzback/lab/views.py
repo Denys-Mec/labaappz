@@ -130,29 +130,33 @@ class StartConvoAPIView(APIView):
 		try:
 			participant = User.objects.get(username=username)
 		except User.DoesNotExist:
-				return Response({'message': 'You cannot chat with a non existent user'})
+			return Response({'message': 'You cannot chat with a non existent user'})
 
-		conversation = Conversation.objects.filter(Q(initiator=request.user, receiver=participant) |
-                                               Q(initiator=participant, receiver=request.user))
-		if conversation.exists():
-			return redirect(reverse('get_conversation', args=(conversation[0].id,)))
-		else:
-			conversation = Conversation.objects.create(initiator=request.user, receiver=participant)
-			return Response(ConversationSerializer(instance=conversation).data)
+		if request.user.is_authenticated:
+			conversation = Conversation.objects.filter(Q(initiator=request.user, receiver=participant) |
+												Q(initiator=participant, receiver=request.user))
+			if conversation.exists():
+				#return redirect(reverse('get_conversation', args=(conversation[0].id,)))
+				serializer = ConversationSerializer(instance=conversation)
+				return Response(serializer.data)
+			else:
+				conversation = Conversation.objects.create(initiator=request.user, receiver=participant)
+				return Response(ConversationSerializer(instance=conversation).data)
 
-class GetConversation(APIView):
-	def get(self, request, convo_id):
-		conversation = Conversation.objects.filter(id=convo_id)
-		if not conversation.exists():
-			return Response({'message': 'Conversation does not exist'})
-		else:
-			serializer = ConversationSerializer(instance=conversation[0])
-			return Response(serializer.data)
+# class GetConversation(APIView):
+# 	def get(self, request, convo_id):
+# 		print(request.user.id)
+# 		conversation = Conversation.objects.filter(id=convo_id)
+# 		if not conversation.exists():
+# 			return Response({'message': 'Conversation does not exist'})
+# 		else:
+# 			serializer = ConversationSerializer(instance=conversation[0])
+# 			return Response(serializer.data)
 
-class Conversations(APIView):
-	def get(self, request):
-		conversation_list = Conversation.objects.filter(Q(initiator=request.user) |
-                                                    Q(receiver=request.user))
-		serializer = ConversationListSerializer(instance=conversation_list, many=True)
-		return Response(serializer.data)
+# class Conversations(APIView):
+# 	def get(self, request):
+# 		conversation_list = Conversation.objects.filter(Q(initiator=request.user) |
+#                                                     Q(receiver=request.user))
+# 		serializer = ConversationListSerializer(instance=conversation_list, many=True)
+# 		return Response(serializer.data)
 
