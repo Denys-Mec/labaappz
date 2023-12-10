@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 
 # Create your views here.
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -116,3 +117,20 @@ class SendMessageApiView(APIView):
     			return Response({ 'send': 'error' })		
     	except:
     		return Response({ 'error': 'Something went wrong' })
+
+# @api_view(['POST'])
+# def start_convo(request, ):
+#     data = request.data
+#     username = data.pop('username')
+#     try:
+#         participant = User.objects.get(username=username)
+#     except User.DoesNotExist:
+#         return Response({'message': 'You cannot chat with a non existent user'})
+
+#     conversation = Conversation.objects.filter(Q(initiator=request.user, receiver=participant) |
+#                                                Q(initiator=participant, receiver=request.user))
+#     if conversation.exists():
+#         return redirect(reverse('get_conversation', args=(conversation[0].id,)))
+#     else:
+#         conversation = Conversation.objects.create(initiator=request.user, receiver=participant)
+#         return Response(ConversationSerializer(instance=conversation).data)

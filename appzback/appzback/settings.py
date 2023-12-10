@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-obpfh)e&+o(tlwt+4g=!4j(+74_3zycf=jaf(2#cpzgg&$ta(c
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'lab',
     'users',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'appzback.wsgi.application'
+
+ASGI_APPLICATION = "appzback.asgi.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': 
+        #{
+        #     "hosts": [('127.0.0.1', 6379)],
+        #},
+        'BACKEND': "channels.layers.InMemoryChannelLayer",  
+    },
+}
 
 
 # Database
