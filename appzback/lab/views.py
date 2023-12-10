@@ -89,8 +89,6 @@ class BotMessageApiView(viewsets.ModelViewSet):
 	def get_queryset(self):                                       
 		return super().get_queryset().filter(user=self.request.user)
 
-
-	
 class RateMessageApiView(APIView):
     def post(self, request, format=None):
     	data = self.request.data

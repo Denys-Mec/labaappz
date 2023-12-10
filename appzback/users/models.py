@@ -5,16 +5,16 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
 	Doctor = 'Doctor'
-	Patient = 'Patient'
+	#Patient = 'Patient'
 	Admin = 'Admin'
 
 	Role = (
 		(Admin, Admin),
 		(Doctor, Doctor),
-		(Patient, Patient),
+		#(Patient, Patient),
 	)
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	role = models.CharField(max_length=255, choices=Role, default=Patient)
+	role = models.CharField(max_length=255, choices=Role, default=Doctor)#Patient)
 
 	is_finished_guide = models.BooleanField(default=False)
 	def __str__(self):

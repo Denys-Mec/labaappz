@@ -15,24 +15,29 @@ class Conversation(models.Model):
     receiver = models.ForeignKey (User, on_delete=models.SET_NULL, null=True, related_name="convo_participant")
     start_time = models.DateTimeField(auto_now_add=True)
 
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL,
-                              null=True, related_name='message_sender')
-    text = models.CharField(max_length=200, blank=True)
-    attachment = models.FileField(blank=True)
-    conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE,)
-    timestamp = models.DateTimeField(auto_now_add=True)
+# class Message(models.Model):
+#     sender = models.ForeignKey(User, on_delete=models.SET_NULL,
+#                               null=True, related_name='message_sender')
+#     text = models.CharField(max_length=200, blank=True)
+#     attachment = models.FileField(blank=True)
+#     conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE,)
+#     time = models.DateTimeField(auto_now_add=True, null=True)
 
-    class Meta:
-        ordering = ('-timestamp',)
+#     class Meta:
+#         ordering = ('-timestamp',)
 
 #Messages
 class BotMessage(models.Model):
 
+    conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE,)
     message = models.TextField(default='')
     is_user = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     rating = models.PositiveIntegerField(default = 0, validators=[MaxValueValidator(10)])
+    time = models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        ordering = ('-time',)
 
     def __str__(self):
         return self.message

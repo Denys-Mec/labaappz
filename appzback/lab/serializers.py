@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from .models import *
 
-
-
 class TooltipeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Tooltipe
@@ -67,7 +65,7 @@ class BotAnswersListItemSerializer(serializers.ModelSerializer):
 class BotMessageSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = BotMessage
-		fields = ['id', 'message', 'is_user', 'rating']
+		fields = ['id', 'message', 'is_user', 'rating', 'time']
 
 class RateMessageSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -80,10 +78,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        exclude = ('conversation_id',)
+# class MessageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Message
+#         exclude = ('conversation_id',)
 
 
 class ConversationListSerializer(serializers.ModelSerializer):
@@ -97,13 +95,13 @@ class ConversationListSerializer(serializers.ModelSerializer):
 
     def get_last_message(self, instance):
         message = instance.message_set.first()
-        return MessageSerializer(instance=message)
+        return BotMessageSerializer(instance=message)
 
 
 class ConversationSerializer(serializers.ModelSerializer):
     initiator = UserSerializer()
     receiver = UserSerializer()
-    message_set = MessageSerializer(many=True)
+    message_set = BotMessageSerializer(many=True)
 
     class Meta:
         model = Conversation
