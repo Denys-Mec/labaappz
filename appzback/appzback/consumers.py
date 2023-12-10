@@ -3,11 +3,9 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from lab.models import BotMessage
+from lab.models import Conversation
 
-class ChatConsumer(WebsocketConsumer):
-    
-    self.controller = Controller()
-    
+class ChatConsumer(WebsocketConsumer): 
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
@@ -47,14 +45,14 @@ class ChatConsumer(WebsocketConsumer):
             #staff_status = user.is_staff  # Це приклад, можливо, ваше поле має іншу назву
 
             # Використання поля "staff status"
-            if staff_status:
+        if staff_status:
                 # Робота з staff status, якщо користувач - персонал
-                pass
-            else:
-                if User.objects.get(username = user.username):
+            pass
+        else:
+            if User.objects.get(username = user.username):
                 pass
 
-            BotMessage.objects.create(conversation_id=int(room_name), message = message, is_user = not staff_status, user = user)
+        BotMessage.objects.create(conversation_id=int(room_name), message = message, is_user = not staff_status, user = user)
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(

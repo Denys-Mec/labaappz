@@ -90,22 +90,22 @@ class BotMessageApiView(viewsets.ModelViewSet):
 		return super().get_queryset().filter(user=self.request.user)
 
 class RateMessageApiView(APIView):
-    def post(self, request, format=None):
-    	data = self.request.data
-    	message_id = data['message_id']
-    	rate = int(data['rating'])
-    	user = self.request.user
+	def post(self, request, format=None):
+		data = self.request.data
+		message_id = data['message_id']
+		rate = int(data['rating'])
+		user = self.request.user
 
-    	try:
-    		message = BotMessage.objects.get(pk=message_id)
+		try:
+			message = BotMessage.objects.get(pk=message_id)
 
-    		if (rate > 0 and rate <= 10 and not message.is_user and message.user==request.user and user.is_authenticated):
-    			BotMessage.objects.filter(pk=1).update(rating = rate)#Int(rating))
-    			return Response({ 'rate': 'success' })
-    		else:
-    			return Response({ 'rate': 'error' })		
-    	except:
-    		return Response({ 'error': 'Something went wrong' })
+			if (rate > 0 and rate <= 10 and not message.is_user and message.user==request.user and user.is_authenticated):
+				BotMessage.objects.filter(pk=1).update(rating = rate)#Int(rating))
+				return Response({ 'rate': 'success' })
+			else:
+				return Response({ 'rate': 'error' })
+		except:
+			return Response({ 'error': 'Something went wrong' })
 
 # class SendMessageApiView(APIView):
 #     def post(self, request, format=None):
