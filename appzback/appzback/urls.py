@@ -28,5 +28,5 @@ urlpatterns = [
     path('api/accounts/authenticated', CheckAuthenticatedView.as_view()),
     path('api/accounts/csrf_cookie', GetCSRFToken.as_view()),
     path('api/messages/rate', RateMessageApiView.as_view()),
-    path('api/messages/send', SendMessageApiView.as_view())
+    path('api/messages/send', SendMessageApiView.as_view()),
 ]
