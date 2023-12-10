@@ -65,6 +65,7 @@ class BotAnswersListItemSerializer(serializers.ModelSerializer):
 class BotMessageSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = BotMessage
+		exclude = ('conversation_id',)
 		fields = ['id', 'message', 'is_user', 'rating', 'time']
 
 class RateMessageSerializer(serializers.ModelSerializer):
