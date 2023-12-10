@@ -17,6 +17,7 @@ router.register(r'api/messages', BotMessageApiView)
 # router.register(r'api/messages/rate', RateMessageApiView)
 router.register(r'api/accounts/profile', ProfileApiView)
 
+
 urlpatterns = [
     path("chat/", include("lab.urls")),
 	path('', include(router.urls)),
@@ -27,15 +28,10 @@ urlpatterns = [
     path('api/accounts/logout', LogoutView.as_view()),
     path('api/accounts/authenticated', CheckAuthenticatedView.as_view()),
     path('api/accounts/csrf_cookie', GetCSRFToken.as_view()),
-<<<<<<< HEAD
-    path('api/messages/rate', RateMessageApiView.as_view()),
-    path('api/messages/send', SendMessageApiView.as_view()),
-=======
     #path('api/messages/rate', RateMessageApiView.as_view()),
     #path('api/messages/send', SendMessageApiView.as_view())
     path('api/conversations', Conversations.as_view()),
     path('api/<int:convo_id>/', GetConversation.as_view()),
     path('api/start/', StartConvoAPIView.as_view()),
     path('api/users/', GetUserLists.as_view())
->>>>>>> 3e3dbc7 (+ added working sockets with html pages(needed for test))
 ]
