@@ -1,5 +1,16 @@
+@media only screen and (min-width: 480px) {
+    .sign-in-form {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .sign-in-form {
+        width: 25%;
+    }
+}
+
 .sign-in-form {
-    width: 25%;
     background-color: #CDE1CB;
     border-radius: 10px;
     display: flex;
