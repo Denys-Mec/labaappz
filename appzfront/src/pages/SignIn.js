@@ -10,6 +10,7 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     let navigate = useNavigate();
 
+    
     function handleSubmit(event) {
         event.preventDefault();
         axios.get('http://127.0.0.1:8000/api/accounts/csrf_cookie')
@@ -21,6 +22,7 @@ const SignIn = () => {
                     },
                 })
                     .then(response => {
+                        console.log(response.data)
                         if (response.data.success)
                             navigate('/questionnaires');
                         else
