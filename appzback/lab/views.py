@@ -11,9 +11,9 @@ from .models import *
 from .pagination import *
 from .serializers import *
 from rest_framework.views import APIView
-# from rest_framework.response import Response
 from rest_framework import viewsets
 from django.middleware import csrf
+from django.shortcuts import get_object_or_404
 
 ###############################################################################
 ##                                                                           ##
@@ -125,22 +125,18 @@ class RateMessageApiView(APIView):
 
 class StartConvoAPIView(APIView):
 	def post(self, request):
-		data = request.data
-		username = data.pop('username')
-		try:
-			participant = User.objects.get(username=username)
-		except User.DoesNotExist:
-			return Response({'message': 'You cannot chat with a non existent user'})
-
 		if request.user.is_authenticated:
-			conversation = Conversation.objects.filter(Q(initiator=request.user, receiver=participant) |
-												Q(initiator=participant, receiver=request.user))
-			if conversation.exists():
-				#return redirect(reverse('get_conversation', args=(conversation[0].id,)))
-				serializer = ConversationSerializer(instance=conversation)
+			print(request.user)
+			user_instance = get_object_or_404(User, pk=request.user.pk)
+			conversations = Conversation.objects.filter(initiator=user_instance)
+			if conversations.count() > 0:
+				print("Conversation with this user exists")
+				serializer = ConversationSerializer(instance=conversations[0])
 				return Response(serializer.data)
 			else:
-				conversation = Conversation.objects.create(initiator=request.user, receiver=participant)
+				print("Conversation with this user not exits")
+				admin = User.objects.get(username="admin")
+				conversation = Conversation.objects.create(initiator=request.user, receiver=admin)
 				return Response(ConversationSerializer(instance=conversation).data)
 
 # class GetConversation(APIView):

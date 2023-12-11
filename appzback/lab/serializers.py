@@ -101,8 +101,8 @@ class ConversationListSerializer(serializers.ModelSerializer):
 class ConversationSerializer(serializers.ModelSerializer):
     initiator = UserSerializer()
     receiver = UserSerializer()
-    message_set = BotMessageSerializer(many=True)
+    botmessage_set = BotMessageSerializer(many=True)
 
     class Meta:
         model = Conversation
-        fields = ['initiator', 'receiver', 'message_set']
+        fields = ['initiator', 'receiver', 'botmessage_set']
