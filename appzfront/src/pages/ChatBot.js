@@ -1,28 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import '../style/general.css';
-import '../style/chat-bot.css'; 
+import '../style/chat-bot.css';
+import axios from 'axios';
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([
     { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false },
   ]);
+  function test() {
+    axios.post('http://127.0.0.1:8000/api/chat/', { username: 'denys', password: 'labaappz' }, {
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.cookie.substring(10)
+    },
+    })
+    .then(response => {
+        console.log(response.data)
+    })
+  }
   const [newMessage, setNewMessage] = useState('');
+  const [chatSocket, setChatSocket] = useState(null);
+  
+  useEffect(() => {
+    const socket = new WebSocket(
+      'ws://http://127.0.0.1:8000'+ '/ws/chat/' +'denys/'
+    );
+
+    socket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: data.message, isUser: false },
+      ]);
+    };
+
+    socket.onclose = function (e) {
+      console.error('Chat socket closed unexpectedly');
+    };
+
+    setChatSocket(socket);
+
+    // Cleanup the WebSocket connection on component unmount
+    return () => socket.close();
+  }, []);
 
   const handleSendMessage = () => {
-    if (newMessage.trim() === '') return;
-  
-    // Use a functional update to correctly update based on the current state
-    setMessages(prevMessages => [
+    if (newMessage.trim() === '' || !chatSocket) return;
+
+    setMessages((prevMessages) => [
       ...prevMessages,
       { text: newMessage, isUser: true },
-      { text: 'Звісно, я бот!', isUser: false },
     ]);
-  
-    // Clear input
+
+    chatSocket.send(JSON.stringify({
+      'message': newMessage
+    }));
+
     setNewMessage('');
   };
+
   return (
     <div className="chat-bot">
       <div className="chat-container">
@@ -45,6 +83,7 @@ const ChatBot = () => {
           onChange={(e) => setNewMessage(e.target.value)}
         />
         <button className='gen-btn' onClick={handleSendMessage}>Відправити</button>
+        <button className='gen-btn' onClick={test}>Тест</button>
       </div>
     </div>
   );
@@ -60,10 +99,10 @@ const ChatBotPage = () => {
             <ChatBot />
         </div>
         <div className="footer">
-                <button className="footer-button">Список питань</button>
-                <button className="footer-button">Своє питання</button>
+          <button className="footer-button">Список питань</button>
+          <button className="footer-button">Своє питання</button>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

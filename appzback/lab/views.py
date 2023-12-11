@@ -125,19 +125,24 @@ class RateMessageApiView(APIView):
 
 class StartConvoAPIView(APIView):
 	def post(self, request):
-		if request.user.is_authenticated:
-			print(request.user)
-			user_instance = get_object_or_404(User, pk=request.user.pk)
-			conversations = Conversation.objects.filter(initiator=user_instance)
-			if conversations.count() > 0:
-				print("Conversation with this user exists")
-				serializer = ConversationSerializer(instance=conversations[0])
-				return Response(serializer.data)
-			else:
-				print("Conversation with this user not exits")
-				admin = User.objects.get(username="admin")
-				conversation = Conversation.objects.create(initiator=request.user, receiver=admin)
-				return Response(ConversationSerializer(instance=conversation).data)
+		#if request.user.is_authenticated:
+		data = request.data
+		username = data.pop('username')
+		try:
+			participant = User.objects.get(username=username)
+		except User.DoesNotExist:
+			return Response({'message': 'You cannot chat with a non existent user'})
+		user_instance = get_object_or_404(User, pk=participant.pk)
+		conversations = Conversation.objects.filter(initiator=user_instance)
+		if conversations.count() > 0:
+			print("Conversation with this user exists")
+			serializer = ConversationSerializer(instance=conversations[0])
+			return Response(serializer.data)
+		else:
+			print("Conversation with this user not exits")
+			admin = User.objects.get(username="admin")
+			conversation = Conversation.objects.create(initiator=request.user, receiver=admin)
+			return Response(ConversationSerializer(instance=conversation).data)
 
 # class GetConversation(APIView):
 # 	def get(self, request, convo_id):
