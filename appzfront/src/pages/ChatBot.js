@@ -7,29 +7,16 @@ import axios from 'axios';
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([
-    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false },
+    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false, display: true},
   ]);
-  // function test() {
-  //   // axios.post('http://127.0.0.1:8000/api/chat/', { username: 'yustin', password: 'labaappz' }, {
-  //   // headers: {
-  //   //     'Content-Type': 'application/json',
-  //   //     'X-CSRFToken': document.cookie.substring(10)
-  //   // },
-  //   // })
-  //   // .then(response => {
-  //   //     console.log(response.data)
-  //   // })
-  
 
-  // }
   const [newMessage, setNewMessage] = useState('');
   const [chatSocket, setChatSocket] = useState(null);
-  
+
   useEffect(() => {
-    
     const socket = new WebSocket(
       'ws://' + '127.0.0.1:8000' + '/ws/chat/' + 'yustin' + '/'
-          );
+    );
     socket.onopen = function (event) {
       console.log('WebSocket connection opened:', event);
     };
@@ -38,7 +25,7 @@ const ChatBot = () => {
       const data = JSON.parse(e.data);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: data.message, isUser: false },
+        { text: data.message, isUser: false, display:false },
       ]);
     };
 
@@ -58,15 +45,25 @@ const ChatBot = () => {
   const handleSendMessage = () => {
     if (newMessage.trim() === '' || !chatSocket) return;
 
+    // Add the user's message to the array
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: newMessage, isUser: true },
+      { text: newMessage, isUser: true, display:true},
     ]);
-
+    console.log(messages)
+    // Add the constant response to the array
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: 'До вас буде підключено адміністратора. Будь ласка зачекайте.', isUser: false, display:true},
+    ]);
+    // Send the user's message to the WebSocket
     chatSocket.send(JSON.stringify({
       'message': newMessage
     }));
 
+
+
+    // Clear the input field
     setNewMessage('');
   };
 
@@ -74,7 +71,7 @@ const ChatBot = () => {
     <div className="chat-bot">
       <div className="chat-container">
         <div className="chat-messages">
-          {messages.map((message, index) => (
+          {messages.map((message, index) => ( message.display && 
             <div
               key={index}
               className={message.isUser ? 'user-message' : 'bot-message'}
@@ -91,8 +88,9 @@ const ChatBot = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button className='gen-btn' onClick={handleSendMessage}>Відправити</button>
-        {/* <button className='gen-btn' onClick={test}>Тест</button> */}
+        <button className="gen-btn" onClick={handleSendMessage}>
+          Відправити
+        </button>
       </div>
     </div>
   );
