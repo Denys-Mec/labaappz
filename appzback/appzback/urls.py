@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 from lab.views import *
 from users.views import *
@@ -33,3 +34,7 @@ urlpatterns = [
     path('api/chat/', StartConvoAPIView.as_view()),
     path('api/get-token', obtain_auth_token)
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_URL)
+    
