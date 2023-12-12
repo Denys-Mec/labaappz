@@ -4,6 +4,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from lab.models import BotMessage
 from lab.models import Conversation
+from channels.exceptions import DenyConnection
 
 class ChatConsumer(WebsocketConsumer): 
     def connect(self):
@@ -14,14 +15,14 @@ class ChatConsumer(WebsocketConsumer):
         print(user)
 
         # Перевірка, чи користувач аутентифікований
-        if not user.is_authenticated:
-            DenyConnection("Connection denied due to user isn't logged in.")
-        else:
-            initiator = Conversation.objects.get(initiator="user.username")
-            receiver = Conversation.objects.get(receiver="user.username")
+        # if not user.is_authenticated:
+        #     DenyConnection("Connection denied due to user isn't logged in.")
+        # else:
+        #     initiator = Conversation.objects.get(initiator="user.username")
+        #     receiver = Conversation.objects.get(receiver="user.username")
 
-            if not (initiator or receiver):
-                DenyConnection("User connected to wrong conversation.")
+        #     if not (initiator or receiver):
+        #         DenyConnection("User connected to wrong conversation.")
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -45,14 +46,14 @@ class ChatConsumer(WebsocketConsumer):
             #staff_status = user.is_staff  # Це приклад, можливо, ваше поле має іншу назву
 
             # Використання поля "staff status"
-        if staff_status:
-                # Робота з staff status, якщо користувач - персонал
-            pass
-        else:
-            if User.objects.get(username = user.username):
-                pass
+        # if staff_status:
+        #         # Робота з staff status, якщо користувач - персонал
+        #     pass
+        # else:
+        #     if User.objects.get(username = user.username):
+        #         pass
 
-        BotMessage.objects.create(conversation_id=int(room_name), message = message, is_user = not staff_status, user = user)
+        # BotMessage.objects.create(conversation_id=int(room_name), message = message, is_user = not staff_status, user = user)
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(

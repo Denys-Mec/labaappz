@@ -5,9 +5,14 @@ import "../style/questions.css"
 
 const Question = ({ id, question, answer, onAnswerChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedSubquestion, setSelectedSubquestion] = useState(null);
 
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const toggleSubquestionExpansion = (subquestionId) => {
+    setSelectedSubquestion(selectedSubquestion === subquestionId ? null : subquestionId);
   };
 
   return (
@@ -23,17 +28,30 @@ const Question = ({ id, question, answer, onAnswerChange }) => {
         </div>
       </div>
       <div className={'question-details'}>
-        {isExpanded && (
-          <div className="question-expand" style={{borderTop: "3px solid #31524B"}}>
-            <button  >{'▶'}</button>
-            <input
+        {isExpanded && answer && answer.map((q) => (
+          <div key={q.id} className="question-expand" style={{ borderTop: "3px solid #31524B" }}>
+            <p onChange={(e) => onAnswerChange(q.id, e.target.value)}>
+            <button onClick={() => toggleSubquestionExpansion(q.id)}>
+              {selectedSubquestion === q.id ? '▲' : '▼'}
+            </button>{q.question} 
+            {/* <input
               type={'text'}
-              value={answer}
-              onChange={(e) => onAnswerChange(id, e.target.value)}
-              readonly
-            />
+              value=
+             
+              readOnly */}
+            {/* /> */}
+            </p>
+            {selectedSubquestion === q.id && (
+              <div key={q.id} className="subquestion-expand">
+                <p   
+                  // value=
+                
+                  // readOnly
+                >{q.answer}</p>
+              </div>
+            )}
           </div>
-        )}
+        ))}
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ router.register(r'api/accounts/profile', ProfileApiView)
 
 
 urlpatterns = [
-    #path("chat/", include("lab.urls")),
+    path("chat/", include("lab.urls")),
 	path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),

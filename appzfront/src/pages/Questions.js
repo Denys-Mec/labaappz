@@ -1,31 +1,70 @@
-// Questions.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import Question from '../pages/Question'; 
 import '../style/general.css';
-import "../style/questions.css"
+import '../style/questions.css';
+
 
 const Questions = () => {
-  // State to manage questions and their responses
-  const [questions, setQuestions] = useState([
-    { id: 1, question: 'Реєстрація та вхід в систему', answer: '' },
-    { id: 2, question: 'Створення та редагування профілю', answer: '' },
-    { id: 3, question: 'Проходження опитувальників', answer: '' },
-    { id: 4, question: 'Керування пацієнтами', answer: '' },
-    { id: 5, question: 'Аналіз та статистика результатів', answer: '' },
-    { id: 6, question: 'Налаштування приватності', answer: '' },
-    { id: 7, question: 'Технічна підтримка', answer: '' },
-    // Add more questions as needed
-  ]);
+  const [questionsByTopic, setQuestionsByTopic] = useState({});
+  useEffect(() => {
+    const fetchData = async (url) => {
+      try {
+        const response = await axios.get(url);
+        const data = response.data;
+  
+        setQuestionsByTopic((prevQuestionsByTopic) => {
+          const updatedQuestionsByTopic = { ...prevQuestionsByTopic };
+  
+          // Use reduce to accumulate questions by topic
+          data.results.forEach(q => {
+            const topicName = q.topic_name;
+  
+            if (!updatedQuestionsByTopic[topicName]) {
+              updatedQuestionsByTopic[topicName] = [];
+            }
+  
+            // Check if the question with the same ID already exists
+            const existingQuestion = updatedQuestionsByTopic[topicName].find(
+              (existingQ) => existingQ.id === q.id
+            );
+  
+            if (!existingQuestion) {
+              updatedQuestionsByTopic[topicName].push({
+                id: q.id,
+                question: q.question,
+                answer: q.answer,
+              });
+            }
+          });
+  
+          return updatedQuestionsByTopic;
+        });
+  
+        // If there's a next page, fetch it
+        if (data.next) {
+          await fetchData(data.next);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    // Initial API URL
+    const apiUrl = 'http://127.0.0.1:8000/api/top_questions/';
+    fetchData(apiUrl);
+  }, []); // Empty dependency array to run the effect only once
+  
 
-  // Function to handle changes in the answer input
-  const handleAnswerChange = (id, value) => {
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) =>
+  const handleAnswerChange = (topicName, id, value) => {
+    setQuestionsByTopic((prevQuestionsByTopic) => ({
+      ...prevQuestionsByTopic,
+      [topicName]: prevQuestionsByTopic[topicName].map((q) =>
         q.id === id ? { ...q, answer: value } : q
-      )
-    );
+      ),
+    }));
   };
 
   return (
@@ -33,15 +72,14 @@ const Questions = () => {
       <Navbar />
       <div className={'content'}>
         <Header content={'Допомога'} />
-        {/* Render questions using the Question component */}
         <div className={'questions-container'}>
-          {questions.map((q) => (
+          {Object.entries(questionsByTopic).map(([topicName, topicQuestions]) => (
             <Question
-              key={q.id}
-              id={q.id}
-              question={q.question}
-              answer={q.answer}
-              onAnswerChange={handleAnswerChange}
+              key={topicName}
+              id={topicName}
+              question={topicName}
+              answer={topicQuestions}
+              onAnswerChange={(value) => handleAnswerChange(topicName, topicName, value)}
             />
           ))}
         </div>
@@ -49,5 +87,6 @@ const Questions = () => {
     </div>
   );
 };
+
 
 export default Questions;
