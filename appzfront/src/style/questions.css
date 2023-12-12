@@ -30,19 +30,21 @@
     color: #31524B;
   }
   
-  .question-details:active {
+  /* .question-details:active {
     width: 100%; 
     border-top: 3px solid #31524B; 
-  }
+  } */
     
-  input{
+  input, p{
     border:none;
     font-size: 24px;
     color: #31524B;
-    background-color: #F4F4F4;
     width: 80%;
   }
-
+  
+  input{
+    background-color: #F4F4F4;
+  }
   .footer {
     display: flex;
     justify-content: center;

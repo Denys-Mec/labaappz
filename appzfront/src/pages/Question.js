@@ -30,23 +30,24 @@ const Question = ({ id, question, answer, onAnswerChange }) => {
       <div className={'question-details'}>
         {isExpanded && answer && answer.map((q) => (
           <div key={q.id} className="question-expand" style={{ borderTop: "3px solid #31524B" }}>
+            <p onChange={(e) => onAnswerChange(q.id, e.target.value)}>
             <button onClick={() => toggleSubquestionExpansion(q.id)}>
               {selectedSubquestion === q.id ? '▲' : '▼'}
-            </button>
-            <input
+            </button>{q.question} 
+            {/* <input
               type={'text'}
-              value={q.question}
-              onChange={(e) => onAnswerChange(q.id, e.target.value)}
-              readOnly
-            />
+              value=
+             
+              readOnly */}
+            {/* /> */}
+            </p>
             {selectedSubquestion === q.id && (
               <div key={q.id} className="subquestion-expand">
-                <input
-                  type={'text'}
-                  value={q.answer}
-                  onChange={(e) => onAnswerChange(q.id, e.target.value)}
-                  readOnly
-                />
+                <p   
+                  // value=
+                
+                  // readOnly
+                >{q.answer}</p>
               </div>
             )}
           </div>
