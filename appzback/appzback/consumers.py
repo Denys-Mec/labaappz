@@ -4,6 +4,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from lab.models import BotMessage
 from lab.models import Conversation
+from channels.exceptions import DenyConnection
 
 class ChatConsumer(WebsocketConsumer): 
     def connect(self):
