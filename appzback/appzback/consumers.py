@@ -10,8 +10,8 @@ class ChatConsumer(WebsocketConsumer):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
 
-        #user = self.scope['user']
-        #print(user)
+        user = self.scope['user']
+        print(user)
 
         # Перевірка, чи користувач аутентифікований
         # if not user.is_authenticated:

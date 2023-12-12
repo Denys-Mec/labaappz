@@ -75,16 +75,16 @@ class BotAnswersListItemApiView(viewsets.ModelViewSet):
 	serializer_class = BotAnswersListItemSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
-	permission_classes=[IsAuthenticated]
+	#authentication_classes=[SessionAuthentication]
+	#permission_classes=[IsAuthenticated]
 	
 class BotMessageApiView(viewsets.ModelViewSet):
 	queryset = BotMessage.objects.all()
 	serializer_class = BotMessageSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
-	permission_classes=[IsAuthenticated]
+	#authentication_classes=[SessionAuthentication]
+	#permission_classes=[IsAuthenticated]
 
 	def get_queryset(self):                                       
 		return super().get_queryset().filter(user=self.request.user)
@@ -128,6 +128,7 @@ class StartConvoAPIView(APIView):
 		#if request.user.is_authenticated:
 		data = request.data
 		username = data.pop('username')
+		#print(username)
 		try:
 			participant = User.objects.get(username=username)
 		except User.DoesNotExist:
