@@ -130,6 +130,7 @@ class StartConvoAPIView(APIView):
 		#if request.user.is_authenticated:
 		data = request.data
 		username = data.pop('username')
+		#print(username)
 		try:
 			participant = User.objects.get(username=username)
 		except User.DoesNotExist:

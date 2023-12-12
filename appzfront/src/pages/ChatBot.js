@@ -9,24 +9,30 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([
     { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false },
   ]);
-  function test() {
-    axios.post('http://127.0.0.1:8000/api/chat/', { username: 'denys', password: 'labaappz' }, {
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': document.cookie.substring(10)
-    },
-    })
-    .then(response => {
-        console.log(response.data)
-    })
-  }
+  // function test() {
+  //   // axios.post('http://127.0.0.1:8000/api/chat/', { username: 'yustin', password: 'labaappz' }, {
+  //   // headers: {
+  //   //     'Content-Type': 'application/json',
+  //   //     'X-CSRFToken': document.cookie.substring(10)
+  //   // },
+  //   // })
+  //   // .then(response => {
+  //   //     console.log(response.data)
+  //   // })
+  
+
+  // }
   const [newMessage, setNewMessage] = useState('');
   const [chatSocket, setChatSocket] = useState(null);
   
   useEffect(() => {
+    
     const socket = new WebSocket(
-      'ws://http://127.0.0.1:8000'+ '/ws/chat/' +'denys/'
-    );
+      'ws://' + '127.0.0.1:8000' + '/ws/chat/' + 'yustin' + '/'
+          );
+    socket.onopen = function (event) {
+      console.log('WebSocket connection opened:', event);
+    };
 
     socket.onmessage = function (e) {
       const data = JSON.parse(e.data);
@@ -40,8 +46,11 @@ const ChatBot = () => {
       console.error('Chat socket closed unexpectedly');
     };
 
-    setChatSocket(socket);
+    socket.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
 
+    setChatSocket(socket);
     // Cleanup the WebSocket connection on component unmount
     return () => socket.close();
   }, []);
@@ -83,7 +92,7 @@ const ChatBot = () => {
           onChange={(e) => setNewMessage(e.target.value)}
         />
         <button className='gen-btn' onClick={handleSendMessage}>Відправити</button>
-        <button className='gen-btn' onClick={test}>Тест</button>
+        {/* <button className='gen-btn' onClick={test}>Тест</button> */}
       </div>
     </div>
   );
