@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 
 
 from lab.views import *
@@ -24,14 +25,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     # path('api/accounts', include('users.urls')),
-    path('api/accounts/login', LoginView.as_view()),
-    path('api/accounts/logout', LogoutView.as_view()),
     path('api/accounts/authenticated', CheckAuthenticatedView.as_view()),
-    path('api/accounts/csrf_cookie', GetCSRFToken.as_view()),
     #path('api/messages/rate', RateMessageApiView.as_view()),
     #path('api/messages/send', SendMessageApiView.as_view())
     #path('api/conversations', Conversations.as_view()),
     #path('api/<int:convo_id>/', GetConversation.as_view()),
     path('api/chat/', StartConvoAPIView.as_view()),
-    path('api/users/', GetUserLists.as_view())
+    path('api/get-token', obtain_auth_token)
 ]

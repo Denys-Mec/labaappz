@@ -13,9 +13,14 @@ const Questionnaires = () => {
     }
     
     function test() {
-        axios.get('http://127.0.0.1:8000/api/accounts/authenticated')
+        axios.get('http://127.0.0.1:8000/api/accounts/authenticated', {
+            headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.cookie.substring(10)
+        },})
             .then(response => {
                 console.log(response.data)
+                console.log(document.cookie)
             })
             .catch(error => console.error('Error:', error));
     }
