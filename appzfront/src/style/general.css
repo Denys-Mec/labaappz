@@ -34,6 +34,7 @@ body {
 
 .tip {
     color: #638D5F;
+    font-weight: 700;
 }
 
 @media only screen and (min-width: 1024px) {

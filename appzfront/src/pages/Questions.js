@@ -12,7 +12,12 @@ const Questions = () => {
   useEffect(() => {
     const fetchData = async (url) => {
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + sessionStorage.getItem("token")
+          },
+        });
         const data = response.data;
   
         setQuestionsByTopic((prevQuestionsByTopic) => {
@@ -21,7 +26,7 @@ const Questions = () => {
           // Use reduce to accumulate questions by topic
           data.results.forEach(q => {
             const topicName = q.topic_name;
-  
+
             if (!updatedQuestionsByTopic[topicName]) {
               updatedQuestionsByTopic[topicName] = [];
             }
