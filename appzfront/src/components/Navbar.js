@@ -65,12 +65,16 @@ const Navbar = () => {
         btn.style.display = "block";
     }
 
+    const logout = () => {
+        sessionStorage.clear();
+    }
+
     return (
         <div>
             <button className={"menu-btn"} onClick={showMenu}></button>
             <nav ref={wrapperRef} className={"navigation"}>
                 <div className={"avatar-side"}>
-                    <img className={"avatar"} src="https://as1.ftcdn.net/v2/jpg/01/63/11/70/1000_F_163117064_syJkTuCddASYjvl4WqyRmnuy8cDXpoQY.jpg" alt={"avatar"} />
+                    <img className={"avatar"} src={sessionStorage.getItem("image")} alt={"avatar"} />
                     <span>{sessionStorage.getItem("name")}</span>
                 </div>
                 <Link className={"nav-item"} to="">
@@ -92,7 +96,7 @@ const Navbar = () => {
                         <Link className={"expanded-nav-item"} to={"/chatbot"}>Чат-бот</Link>
                     </div>
                 )}
-                <Link className={"nav-item"} to="/">
+                <Link className={"nav-item"} onClick={logout} to="/">
                     Вихід
                 </Link>
             </nav>
