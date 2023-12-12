@@ -2,7 +2,6 @@ import "../style/navbar.css";
 import "../style/general.css";
 
 import React, { useEffect, useRef, useState } from "react";
-import tippy from 'tippy.js';
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
@@ -30,15 +29,6 @@ const Navbar = () => {
     }
 
     useOutsideAlerter(wrapperRef);
-
-    useEffect(() => {
-        tippy('#myBtn', {
-            content: "Example",
-            allowHTML: true,
-            arrow: true,
-            theme: "custom"
-        });
-    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -80,8 +70,8 @@ const Navbar = () => {
             <button className={"menu-btn"} onClick={showMenu}></button>
             <nav ref={wrapperRef} className={"navigation"}>
                 <div className={"avatar-side"}>
-                    <img id="myBtn" className={"avatar"} src="https://as1.ftcdn.net/v2/jpg/01/63/11/70/1000_F_163117064_syJkTuCddASYjvl4WqyRmnuy8cDXpoQY.jpg" alt={"avatar"} />
-                    <span>Петрик Ольга</span>
+                    <img className={"avatar"} src="https://as1.ftcdn.net/v2/jpg/01/63/11/70/1000_F_163117064_syJkTuCddASYjvl4WqyRmnuy8cDXpoQY.jpg" alt={"avatar"} />
+                    <span>{sessionStorage.getItem("name")}</span>
                 </div>
                 <Link className={"nav-item"} to="">
                     Головна

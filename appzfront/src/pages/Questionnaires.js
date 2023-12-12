@@ -4,43 +4,51 @@ import "../style/general.css";
 import "../style/questionnaires.css";
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
+import initializeTippy from "../components/Tooltipe";
 
 const Questionnaires = () => {
-    let navigate = useNavigate();
+    let tooltipes;
 
-    function handleClick() {
-        navigate('/chatbot');
-    }
-    
-    function test() {
-        axios.get('http://127.0.0.1:8000/api/accounts/authenticated', {
-            headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': document.cookie.substring(10)
-        },})
-            .then(response => {
-                console.log(response.data)
-                console.log(document.cookie)
+    function getTooltipes() {
+        if (sessionStorage.getItem("token") != null) {
+            axios.get('http://127.0.0.1:8000/api/tooltipe', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + sessionStorage.getItem("token")
+                },
+            }).then( res => {
+                tooltipes = res.data.results
+                setTooltipes()
             })
-            .catch(error => console.error('Error:', error));
+        } else {
+            console.log("Error token")
+        }
     }
+
+    function setTooltipes() {
+        for (let i = 0; i < tooltipes.length; i++) {
+            initializeTippy(tooltipes[i].element_name, tooltipes[i].tooltipe)
+        }
+    }
+
+    getTooltipes()
+
     return (
         <div className={"page"}>
             <Navbar/>
             <div className={"content"}>
                 <Header content={"Опитувальники"} />
                 <ul className={"questionnaires-list"}>
-                    <button onClick={test}>Test</button>
-                    <li onClick={handleClick}>Оцінка Якості Життя</li>
-                    <li>Індекс Фізичного Здоров'я</li>
-                    <li>Скала Емоційного Благополуччя</li>
-                    <li>Оцінка Соціальних Відносин</li>
+                    <li>Оцінка Якості Життя</li>
+                    <li>Індекс <span className={"tip physical-health"}>Фізичного Здоров'я</span></li>
+                    <li>Скала <span className={"tip emotional-well-being"}>Емоційного Благополуччя</span></li>
+                    <li>Оцінка <span className={"tip social-relationships"}>Соціальних Відносин</span></li>
                     <li>Рейтинг Енергії та Втоми</li>
                     <li>Оцінка Якості Сну</li>
                     <li>Активність та Спорт</li>
                     <li>Дієтичний Журнал</li>
                     <li>Задоволення Загальним Життям</li>
-                    <li>Моніторинг Денної Рутини</li>
+                    <li><span className={"tip monitoring"}>Моніторинг</span> Денної <span className={"tip routine"}>Рутини</span></li>
                 </ul>
             </div>
         </div>
