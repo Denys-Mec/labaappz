@@ -78,6 +78,7 @@ class Guide(models.Model):
 #
 class Tooltipe(models.Model):
     element_name = models.CharField(max_length=100)
+    title = models.CharField(max_length=50, null=True)
     tooltipe = models.CharField(max_length=500)
 
     def __str__(self):
