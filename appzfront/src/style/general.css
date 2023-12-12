@@ -37,6 +37,40 @@ body {
     font-weight: 700;
 }
 
+.swal-modal {
+    background-color: #F4F4F4;
+    border-radius: 10px;
+}
+
+.swal-text {
+    padding: 5px 20px;
+    font-size: 24px;
+    text-align: center;
+    color: black;
+}
+
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    border: none;
+    border-radius: 0;
+    color: black;
+    width: 150px;
+    margin: auto 5px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.swal-button--confirm {
+    background-color: #A1E49A;
+}
+
+.swal-button--cancel {
+    background-color: #F98787;
+}
+
 @media only screen and (min-width: 1024px) {
     .page {
         display: grid;

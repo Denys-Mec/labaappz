@@ -8,8 +8,28 @@
 .page-title {
     color: #31524B;
     text-align: center;
+
     padding-bottom: 20px;
     border-bottom: 3px solid #31524B;
     font-size: 36px;
     font-weight: 700;
+}
+
+.help-btn {
+    width: 50px;
+    height: 50px;
+    background-color: #395536;
+    color: white;
+    font-size: 36px;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.help-btn:hover {
+    background-color: #4B7247;
+    transition: 0.1s;
 }

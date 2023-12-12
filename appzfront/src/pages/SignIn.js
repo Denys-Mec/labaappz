@@ -30,6 +30,7 @@ const SignIn = () => {
                         sessionStorage.setItem("name", res.data[0].full_name);
                         sessionStorage.setItem("image", res.data[0].image);
                         sessionStorage.setItem("token", response.data.token);
+                        sessionStorage.setItem("enter", "1");
                         navigate("/questionnaires")
                     })
                 }

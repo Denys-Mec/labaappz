@@ -3,6 +3,7 @@ import "../style/general.css";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import StartGuide from "./StartGuide";
 
 const Navbar = () => {
     const location = useLocation();
@@ -91,7 +92,7 @@ const Navbar = () => {
                 </span>
                 {isExpanded && (
                     <div className={"expanded-nav"}>
-                        <Link className={"expanded-nav-item"} to={""}>Інструкція</Link>
+                        <Link className={"expanded-nav-item"} onClick={StartGuide} to={""}>Інструкція</Link>
                         <Link className={"expanded-nav-item"} to={"/questions"}>Питання</Link>
                         <Link className={"expanded-nav-item"} to={"/chatbot"}>Чат-бот</Link>
                     </div>

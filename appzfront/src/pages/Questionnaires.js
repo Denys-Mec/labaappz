@@ -2,11 +2,17 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import "../style/general.css";
 import "../style/questionnaires.css";
-import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 import initializeTippy from "../components/Tooltipe";
+import {useEffect} from "react";
+import StartGuide from "../components/StartGuide";
 
 const Questionnaires = () => {
+    useEffect(() => {
+        if (sessionStorage.getItem("enter") === "1")
+            StartGuide();
+    }, []);
+
     let tooltipes;
 
     function getTooltipes() {
