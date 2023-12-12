@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .pagination import *
@@ -34,7 +34,7 @@ class TooltipeApiView(viewsets.ModelViewSet):
 	
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 class GuideApiView(viewsets.ModelViewSet):
@@ -42,7 +42,7 @@ class GuideApiView(viewsets.ModelViewSet):
 	serializer_class = GuideSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 class SectionApiView(viewsets.ModelViewSet):
@@ -50,7 +50,7 @@ class SectionApiView(viewsets.ModelViewSet):
 	serializer_class = SectionSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 class TopicApiView(viewsets.ModelViewSet):
@@ -58,7 +58,7 @@ class TopicApiView(viewsets.ModelViewSet):
 	serializer_class = TopicSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 class DocumentationApiView(viewsets.ModelViewSet):
@@ -66,7 +66,7 @@ class DocumentationApiView(viewsets.ModelViewSet):
 	serializer_class = DocumentationSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 
@@ -75,7 +75,7 @@ class BotAnswersListItemApiView(viewsets.ModelViewSet):
 	serializer_class = BotAnswersListItemSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 	
 class BotMessageApiView(viewsets.ModelViewSet):
@@ -83,13 +83,15 @@ class BotMessageApiView(viewsets.ModelViewSet):
 	serializer_class = BotMessageSerializer
 	http_method_names = ['get']
 	pagination_class = DefaultPagination
-	authentication_classes=[SessionAuthentication]
+	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 
 	def get_queryset(self):                                       
 		return super().get_queryset().filter(user=self.request.user)
 
 class RateMessageApiView(APIView):
+	authentication_classes=[TokenAuthentication]
+	permission_classes=[IsAuthenticated]
 	def post(self, request, format=None):
 		data = self.request.data
 		message_id = data['message_id']
