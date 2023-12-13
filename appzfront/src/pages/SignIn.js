@@ -42,7 +42,7 @@ const SignIn = () => {
 
     return (
         <div className={"content"}>
-            <Header content={"Вхід"}/>
+            <Header content={"Вхід"} classes={[]}/>
             <form className={"sign-in-form"}>
                 <label className={"sign-in-form-label"}>Логін</label>
                 <input className={"sign-in-form-input"} value={username} onChange={(e) => setUsername(e.target.value)}/>

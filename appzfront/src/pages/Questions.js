@@ -76,7 +76,7 @@ const Questions = () => {
     <div className={'page'}>
       <Navbar />
       <div className={'content'}>
-        <Header content={'Допомога'} />
+        <Header content={'Допомога'} classes={[]}/>
         <div className={'questions-container'}>
           {Object.entries(questionsByTopic).map(([topicName, topicQuestions]) => (
             <Question

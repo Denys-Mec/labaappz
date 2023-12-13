@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import '../style/general.css';
 import '../style/chat-bot.css';
-import axios from 'axios';
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -61,8 +60,6 @@ const ChatBot = () => {
       'message': newMessage
     }));
 
-
-
     // Clear the input field
     setNewMessage('');
   };
@@ -102,7 +99,7 @@ const ChatBotPage = () => {
       <Navbar />
       <div className={'content-page'}>
         <div className='content'>
-            <Header content={'Чат-бот'} />
+            <Header content={'Чат-бот'} classes={[]} />
             <ChatBot />
         </div>
         <div className="footer">

@@ -1,4 +1,5 @@
 import swal from "sweetalert";
+import axios from "axios";
 
 const StartGuide = () => {
     swal({
@@ -16,19 +17,32 @@ const StartGuide = () => {
                 visible: true,
                 closeModal: true
             }
-        }
+        },
+        className: "swal-guide"
     })
         .then((start) => {
             if (start) {
                 sessionStorage.setItem("enter", "0")
-                swal("Lets start!", {
+                swal("Давайте розпочнемо!", {
                     icon: "success",
                 });
+                guide()
             } else {
                 sessionStorage.setItem("enter", "0")
-                swal("Next time");
+                swal("Наступного разу");
             }
         });
+
+    function guide() {
+        axios.get("http://127.0.0.1:8000/api/guide/", {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + sessionStorage.getItem("token")
+            },
+        }).then( res => {
+            console.log(res.data)
+        })
+    }
 }
 
 export default StartGuide

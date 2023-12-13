@@ -43,14 +43,31 @@ body {
 }
 
 .swal-text {
-    padding: 5px 20px;
+    color: black;
+}
+
+.swal-guide .swal-text {
     font-size: 24px;
     text-align: center;
-    color: black;
+    padding: 5px 20px;
+}
+
+.swal-text .swal-help-page {
+    text-align: left;
+    font-size: 20px;
 }
 
 .swal-footer {
     text-align: center;
+}
+
+.swal-title {
+    color: #31524B;
+    border-bottom: 3px solid #31524B;
+}
+
+.swal-title:first-child {
+    margin: 10px 40px 20px 40px;
 }
 
 .swal-button {
@@ -67,8 +84,27 @@ body {
     background-color: #A1E49A;
 }
 
+.swal-button--confirm:not([disabled]):hover {
+    background-color: #78c46f;
+    transition: 0.1s;
+}
+
 .swal-button--cancel {
     background-color: #F98787;
+}
+
+.swal-button--cancel:not([disabled]):hover {
+    background-color: #e56464;
+    transition: 0.1s;
+}
+
+.swal-button--close, .save-btn {
+    background-color: #cccccc;
+}
+
+.swal-button--close:not([disabled]):hover, .save-btn:not([disabled]):hover {
+    background-color: #b2b2b2;
+    transition: 0.1s;
 }
 
 @media only screen and (min-width: 1024px) {

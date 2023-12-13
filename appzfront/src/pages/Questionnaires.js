@@ -8,12 +8,13 @@ import {useEffect} from "react";
 import StartGuide from "../components/StartGuide";
 
 const Questionnaires = () => {
+    let tooltipes;
+    let classes = [];
+
     useEffect(() => {
         if (sessionStorage.getItem("enter") === "1")
             StartGuide();
     }, []);
-
-    let tooltipes;
 
     function getTooltipes() {
         if (sessionStorage.getItem("token") != null) {
@@ -33,7 +34,9 @@ const Questionnaires = () => {
 
     function setTooltipes() {
         for (let i = 0; i < tooltipes.length; i++) {
-            initializeTippy(tooltipes[i].element_name, tooltipes[i].tooltipe)
+            let temp = initializeTippy(tooltipes[i].element_name, tooltipes[i].tooltipe)
+            if (temp)
+                classes.push(tooltipes[i].element_name)
         }
     }
 
@@ -41,9 +44,9 @@ const Questionnaires = () => {
 
     return (
         <div className={"page"}>
-            <Navbar/>
+            <Navbar />
             <div className={"content"}>
-                <Header content={"Опитувальники"} />
+                <Header content={"Опитувальники"} classes={classes} />
                 <ul className={"questionnaires-list"}>
                     <li>Оцінка Якості Життя</li>
                     <li>Індекс <span className={"tip physical-health"}>Фізичного Здоров'я</span></li>
