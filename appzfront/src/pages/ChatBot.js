@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useRef, useImperativeHandle } from 'react';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import '../style/general.css';
 import '../style/chat-bot.css';
 
-const ChatBot = () => {
+const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
   const [messages, setMessages] = useState([
-    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false, display: true},
+    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false, display: true },
   ]);
 
   const [newMessage, setNewMessage] = useState('');
@@ -24,7 +24,7 @@ const ChatBot = () => {
       const data = JSON.parse(e.data);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: data.message, isUser: false, display:false },
+        { text: data.message, isUser: false, display: false },
       ]);
     };
 
@@ -44,38 +44,108 @@ const ChatBot = () => {
   const handleSendMessage = () => {
     if (newMessage.trim() === '' || !chatSocket) return;
 
-    // Add the user's message to the array
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: newMessage, isUser: true, display:true},
+      { text: newMessage, isUser: true, display: true },
     ]);
-    console.log(messages)
-    // Add the constant response to the array
+
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: 'До вас буде підключено адміністратора. Будь ласка зачекайте.', isUser: false, display:true},
+      { text: 'До вас буде підключено адміністратора. Будь ласка, зачекайте.', isUser: false, display: true },
     ]);
-    // Send the user's message to the WebSocket
+
     chatSocket.send(JSON.stringify({
       'message': newMessage
     }));
 
-    // Clear the input field
     setNewMessage('');
   };
+
+  const getQuestions = async () => {
+    try {
+      const url = 'http://127.0.0.1:8000/api/top_questions/';
+      const response = await axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ' + sessionStorage.getItem("token")
+        },
+      });
+
+      const questions = response.data.results;
+      console.log(questions)
+
+      const groupedQuestions = questions.reduce((acc, question) => {
+        const { topic_name, question: subquestion, answer } = question;
+
+        if (!acc[topic_name]) {
+          acc[topic_name] = { topic_name, subquestions: [{ text: subquestion, answers: answer }] };
+        } else {
+          acc[topic_name].subquestions.push({ text: subquestion,answers: answer});
+        }
+        return acc;
+      }, {});
+      console.log(groupedQuestions)
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        ...Object.values(groupedQuestions).map(q => ({
+          text: q.topic_name,
+          isUser: false,
+          display: true,
+          subquestions: q.subquestions,
+        }))
+      ]);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    }
+  };
+
+  const handleTopicClick = (topic) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: `Ви вибрали тему: ${topic.text}`, isUser: true, display: true},
+    ]);
+
+    if (topic.subquestions && Array.isArray(topic.subquestions)) {
+      console.log(topic)
+
+      const subquestionMessages = topic.subquestions.map((q) => ({
+        text: q.text,
+        isUser: false,
+        display: true,
+        answer: q.answers, // Include the answers for each subquestion
+      }));
+
+      setMessages((prevMessages) => [...prevMessages, ...subquestionMessages]);
+    }
+    else{
+      console.log(topic)
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: topic.answer, isUser: false, display: true},
+      ]);
+    }
+    
+  };
+
+  useImperativeHandle(ref, () => ({
+    getQuestions,
+    handleTopicClick,
+  }));
 
   return (
     <div className="chat-bot">
       <div className="chat-container">
         <div className="chat-messages">
-          {messages.map((message, index) => ( message.display && 
+          {messages.map((message, index) => (message.display && (
             <div
               key={index}
               className={message.isUser ? 'user-message' : 'bot-message'}
+              onClick={() => handleTopicClick(message)}
+              style={{ cursor: 'pointer' }}
             >
               {message.text}
             </div>
-          ))}
+          )))}
         </div>
       </div>
       <div className="chat-input">
@@ -84,6 +154,7 @@ const ChatBot = () => {
           placeholder="Напишіть повідомлення..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          readOnly={inputReadOnly}
         />
         <button className="gen-btn" onClick={handleSendMessage}>
           Відправити
@@ -91,20 +162,33 @@ const ChatBot = () => {
       </div>
     </div>
   );
-};
+});
 
 const ChatBotPage = () => {
+  const [inputReadOnly, setInputReadOnly] = useState(true);
+  const chatBotRef = useRef();
+
+  const handleToggleInput = () => {
+    setInputReadOnly((prevReadOnly) => !prevReadOnly);
+  };
+
+  const handleGetQuestions = () => {
+    if (chatBotRef.current) {
+      chatBotRef.current.getQuestions();
+    }
+  };
+
   return (
     <div className={'page'}>
       <Navbar />
       <div className={'content-page'}>
         <div className='content'>
-            <Header content={'Чат-бот'} classes={[]} />
-            <ChatBot />
+          <Header content={'Чат-бот'} />
+          <ChatBot ref={chatBotRef} inputReadOnly={inputReadOnly} setInputReadOnly={setInputReadOnly} />
         </div>
         <div className="footer">
-          <button className="footer-button">Список питань</button>
-          <button className="footer-button">Своє питання</button>
+          <button className="footer-button" onClick={handleGetQuestions}>Список питань</button>
+          <button className="footer-button" onClick={handleToggleInput}>Своє питання</button>
         </div>
       </div>
     </div>

@@ -54,22 +54,29 @@
     border-top: 3px solid #31524B; 
   } */
     
-  input, p{
+  p, .search-bar{
     border:none;
     font-size: 24px;
     color: #31524B;
-    width: 80%;
+    width: 100%;
   }
-  
-  input{
-    background-color: #F4F4F4;
-    width: 80%;
+  .question-expand  p {
+    margin-left: 15px;
   }
+  .search-input {
+    color: #31524B;
+    width: 100%; 
+    padding-right: 0; 
+    padding-left: 0; 
+    margin-right: 0; 
+    margin-left: 0; 
+  }
+
   .footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #afd3b1; /* Light green background color */
+    background-color: #afd3b1; 
     width: 100%;
     height: 10%;
   }

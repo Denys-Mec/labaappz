@@ -9,6 +9,8 @@ import '../style/questions.css';
 
 const Questions = () => {
   const [questionsByTopic, setQuestionsByTopic] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     const fetchData = async (url) => {
       try {
@@ -18,12 +20,12 @@ const Questions = () => {
             'Authorization': 'Token ' + sessionStorage.getItem("token")
           },
         });
+        console.log(response.data)
         const data = response.data;
   
         setQuestionsByTopic((prevQuestionsByTopic) => {
           const updatedQuestionsByTopic = { ...prevQuestionsByTopic };
   
-          // Use reduce to accumulate questions by topic
           data.results.forEach(q => {
             const topicName = q.topic_name;
 
@@ -31,7 +33,7 @@ const Questions = () => {
               updatedQuestionsByTopic[topicName] = [];
             }
   
-            // Check if the question with the same ID already exists
+           
             const existingQuestion = updatedQuestionsByTopic[topicName].find(
               (existingQ) => existingQ.id === q.id
             );
@@ -48,7 +50,7 @@ const Questions = () => {
           return updatedQuestionsByTopic;
         });
   
-        // If there's a next page, fetch it
+       
         if (data.next) {
           await fetchData(data.next);
         }
@@ -57,10 +59,10 @@ const Questions = () => {
       }
     };
   
-    // Initial API URL
+ 
     const apiUrl = 'http://127.0.0.1:8000/api/top_questions/';
     fetchData(apiUrl);
-  }, []); // Empty dependency array to run the effect only once
+  }, []); 
   
 
   const handleAnswerChange = (topicName, id, value) => {
@@ -72,21 +74,41 @@ const Questions = () => {
     }));
   };
 
+  const filteredQuestionsByTopic = Object.fromEntries(
+    Object.entries(questionsByTopic).map(([topicName, topicQuestions]) => [
+      topicName,
+      topicQuestions.filter((q) =>
+        q.question.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    ])
+  );
   return (
     <div className={'page'}>
       <Navbar />
       <div className={'content'}>
-        <Header content={'Допомога'} classes={[]}/>
-        <div className={'questions-container'}>
-          {Object.entries(questionsByTopic).map(([topicName, topicQuestions]) => (
-            <Question
-              key={topicName}
-              id={topicName}
-              question={topicName}
-              answer={topicQuestions}
-              onAnswerChange={(value) => handleAnswerChange(topicName, topicName, value)}
+        <Header content={'Допомога'} />
+        <div className={'search-bar'}>
+            <input className={'search-input'}
+              type="text"
+              placeholder="Шукайте питання..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-          ))}
+        </div>
+        <div className={'questions-container'}>
+          {Object.entries(filteredQuestionsByTopic).map(
+            ([topicName, topicQuestions]) => (
+              <Question
+                key={topicName}
+                id={topicName}
+                question={topicName}
+                answer={topicQuestions}
+                onAnswerChange={(value) =>
+                  handleAnswerChange(topicName, topicName, value)
+                }
+              />
+            )
+          )}
         </div>
       </div>
     </div>

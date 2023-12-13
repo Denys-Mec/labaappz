@@ -2,17 +2,19 @@
   .chat-bot {
     display: flex;
     flex-direction: column;
-    height: 100%;
-  }
-  
-  /* Adjust the size of the chat-messages to take 80% of the height */
-  .chat-container {
-    flex: 1;
     overflow: hidden;
+  }
+  .chat-container {
+    height: 65vh; 
+    width: 150vh; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   
   .chat-messages {
-    height: 95%;
+    width: 100%; 
+    height: 100%;
     overflow-y: auto;
   }
   
@@ -20,8 +22,8 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    height: 5%;
     margin-bottom: 25px;
+    /* height: 30vh; */
   }
   
   input {
@@ -33,7 +35,9 @@
     background-color: #F4F4F4;
     border-top: 1px solid #ccc; 
     border-bottom: 1px solid #ccc; 
-
+  }
+  input[readonly]:focus {
+    outline: none;
   }
   .user-message,
   .bot-message,
@@ -54,10 +58,9 @@
   }
 
   .chat-messages {
-    height: 80%;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Display messages in a column */
+    flex-direction: column; 
   }
   
   .user-message,
