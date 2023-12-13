@@ -71,6 +71,7 @@ class Guide(models.Model):
     prew_element_name = models.CharField(max_length=100, null=True)
     next_element_name = models.CharField(max_length=100, null=True)
     content = models.CharField(max_length=500)
+    place = models.CharField(max_length=250, default='main', null=True)
     
     def __str__(self):
         return self.element_name
