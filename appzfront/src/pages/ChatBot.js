@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import '../style/general.css';
 import '../style/chat-bot.css';
+import axios from "axios";
 
 const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
   const [messages, setMessages] = useState([

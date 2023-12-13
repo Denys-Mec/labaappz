@@ -21,7 +21,7 @@ const SignIn = () => {
             .then(response => {
                 if (response.data.token)
                 {
-                    axios.get('http://127.0.0.1:8000/api/accounts/profile', {
+                    axios.get('http://127.0.0.1:8000/api/accounts/profile/', {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Token ' + response.data.token
