@@ -29,22 +29,11 @@ const Question = ({ id, question, answer, onAnswerChange }) => {
           <div key={q.id} className="question-expand" onClick={() => toggleSubquestionExpansion(q.id)} style={{ borderTop: "3px solid #31524B" }}>
             <p onChange={(e) => onAnswerChange(q.id, e.target.value)}>
             <button onClick={() => toggleSubquestionExpansion(q.id)}>
-              {selectedSubquestion === q.id ? '▲' : '▼'}
-            </button>{q.question} 
-            {/* <input
-              type={'text'}
-              value=
-             
-              readOnly */}
-            {/* /> */}
-            </p>
+              {selectedSubquestion === q.id ? '▲' : '▶'}
+            </button>{q.question} </p>
             {selectedSubquestion === q.id && (
               <div key={q.id} className="subquestion-expand">
-                <p   
-                  // value=
-                
-                  // readOnly
-                >{q.answer}</p>
+                <p>{q.answer}</p>
               </div>
             )}
           </div>
