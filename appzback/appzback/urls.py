@@ -16,7 +16,7 @@ router.register(r'api/topic', TopicApiView)
 router.register(r'api/documentation', DocumentationApiView)
 router.register(r'api/top_questions', BotAnswersListItemApiView)
 router.register(r'api/messages', BotMessageApiView)
-# router.register(r'api/messages/rate', RateMessageApiView)
+#router.register(r'api/messages/rate', RateMessageApiView)
 router.register(r'api/accounts/profile', ProfileApiView)
 
 
@@ -27,7 +27,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     # path('api/accounts', include('users.urls')),
     path('api/accounts/authenticated', CheckAuthenticatedView.as_view()),
-    #path('api/messages/rate', RateMessageApiView.as_view()),
+    path('api/messages/rate', RateMessageApiView.as_view()),
     #path('api/messages/send', SendMessageApiView.as_view())
     #path('api/conversations', Conversations.as_view()),
     #path('api/<int:convo_id>/', GetConversation.as_view()),
