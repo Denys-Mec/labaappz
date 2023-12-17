@@ -22,11 +22,10 @@ const StartGuide = () => {
     })
         .then((start) => {
             if (start) {
-                sessionStorage.setItem("enter", "0")
+                sessionStorage.setItem("enter", "2")
                 swal("Давайте розпочнемо!", {
                     icon: "success",
-                });
-                guide()
+                }).then(() => window.location.href = '/questionnaires')
             } else {
                 sessionStorage.setItem("enter", "0")
                 swal("Наступного разу");
