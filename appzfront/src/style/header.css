@@ -14,7 +14,7 @@
     font-weight: 700;
 }
 
-.help-btn {
+.help-btn, .translate-btn {
     width: 50px;
     height: 50px;
     background-color: #395536;
@@ -28,7 +28,12 @@
     cursor: pointer;
 }
 
-.help-btn:hover {
+.translate-btn {
+    right:90px;
+}
+
+.help-btn:hover, .translate-btn:hover {
     background-color: #4B7247;
     transition: 0.1s;
 }
+

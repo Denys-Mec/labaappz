@@ -4,11 +4,23 @@ import swal from "sweetalert";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import html2pdf from 'html2pdf.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
 const Header = ({ content, classes }) => {
     const [isAuth, setIsAuth] = useState(false);
+    const [translateVisible, setTranslateVisible] = useState(false);
 
     let tooltipes;
+    const googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            autoDisplay: false
+          },
+          "google_translate_element"
+        );
+      };
 
     useEffect(() => {
         if (sessionStorage.getItem("token") != null)
@@ -26,7 +38,6 @@ const Header = ({ content, classes }) => {
             },
         }).then( res => {
             tooltipes = res.data.results
-
             tooltipes.forEach((val, index, array) => {
                 if (classes.includes(val.element_name)) {
                     text += "⟩\t";
@@ -76,13 +87,32 @@ const Header = ({ content, classes }) => {
             });
         })
     }
-
+    const handleTranslateButtonClick = () => {
+        setTranslateVisible((prevVisible) => !prevVisible);
+        if (!translateVisible) {
+          var addScript = document.createElement("script");
+          addScript.setAttribute(
+            "src",
+            `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`
+          );
+          document.body.appendChild(addScript);
+          window.googleTranslateElementInit = googleTranslateElementInit;
+        }
+      };
     return (
         <div className={"header"}>
             <h1 className={"page-title"}>{content}</h1>
             {
                 isAuth && <button className={"help-btn"} onClick={helpClick}>?</button>
             }
+            {isAuth && (
+                    <>
+                    <button className={"translate-btn"} onClick={handleTranslateButtonClick}>
+                        <FontAwesomeIcon icon={faGlobe} />
+                    </button>
+                    {translateVisible && <div id="google_translate_element"></div>}
+                    </>
+            )}
         </div>
     );
 };
