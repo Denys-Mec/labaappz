@@ -1,13 +1,12 @@
 import '../style/general.css';
 import '../style/chat-bot.css';
 import axios from "axios";
-
+import botAvatar from '../images/admin-default.png';
 import { UsernameContext } from '../App';
 import React, { useState, useEffect, forwardRef, useRef, useImperativeHandle, useContext } from 'react';
 
 const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
     const userAvatar = sessionStorage.getItem("image");
-    const botAvatar = sessionStorage.getItem("image");
     const { username, setUsername } = useContext(UsernameContext);
     const timestamp = new Date().toLocaleTimeString();
     const [messages, setMessages] = useState([
@@ -59,10 +58,10 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
         { text: newMessage, isUser: true, display: true, timestamp  },
       ]);
   
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: 'До вас буде підключено адміністратора. Будь ласка, зачекайте.', isUser: false, display: true, timestamp },
-      ]);
+    //   setMessages((prevMessages) => [
+    //     ...prevMessages,
+    //     { text: 'До вас буде підключено адміністратора. Будь ласка, зачекайте.', isUser: false, display: true, timestamp },
+    //   ]);
   
       chatSocket.send(JSON.stringify({
         'message': newMessage,
