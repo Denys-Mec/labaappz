@@ -5,6 +5,9 @@ import Header from '../components/Header';
 import Question from '../pages/Question'; 
 import '../style/general.css';
 import '../style/questions.css';
+import Joyride from "react-joyride";
+import joyrideConfig from "../components/GuideConfig";
+import {useNavigate} from "react-router-dom";
 
 
 const Questions = () => {
@@ -82,19 +85,28 @@ const Questions = () => {
       ),
     ])
   );
+
+  const navigate = useNavigate();
+
+  const handleJoyrideCallback = (data) => joyrideConfig.handleJoyrideCallback(data, navigate);
+
   return (
+      <>
+        <Joyride
+            steps={joyrideConfig.steps}
+            continuous={true}
+            showProgress={true}
+            callback={handleJoyrideCallback}/>
     <div className={'page'}>
       <Navbar />
       <div className={'content'}>
         <Header content={'Допомога'} />
-        <div className={'search-bar'}>
-            <input className={'search-input'}
-              type="text"
-              placeholder="Шукайте питання..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-        </div>
+        <input className={'gen-input search-input'}
+               type="text"
+               placeholder="Шукайте питання..."
+               value={searchTerm}
+               onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <div className={'questions-container'}>
           {Object.entries(filteredQuestionsByTopic).map(
             ([topicName, topicQuestions]) => (
@@ -112,6 +124,7 @@ const Questions = () => {
         </div>
       </div>
     </div>
+        </>
   );
 };
 
