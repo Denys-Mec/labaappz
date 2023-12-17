@@ -126,6 +126,8 @@ class RateMessageApiView(APIView):
 #     		return Response({ 'error': 'Something went wrong' })
 
 class StartConvoAPIView(APIView):
+	authentication_classes=[TokenAuthentication]
+	permission_classes=[IsAuthenticated]
 	def post(self, request):
 		#if request.user.is_authenticated:
 		data = request.data

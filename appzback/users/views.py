@@ -42,3 +42,9 @@ class CheckAuthenticatedView(APIView):
         except:
             return Response({ 'error': 'Something went wrong when checking authentication status' })
 
+class AllUsersApiView(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = UsersAllSerializer
+    http_method_names = ['get']
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]

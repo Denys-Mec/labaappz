@@ -9,6 +9,7 @@ from lab.views import *
 from users.views import *
 
 router = routers.DefaultRouter()
+router.register(r'api/all', AllUsersApiView)
 router.register(r'api/tooltipe', TooltipeApiView)
 router.register(r'api/guide', GuideApiView)
 router.register(r'api/section', SectionApiView)
@@ -18,7 +19,7 @@ router.register(r'api/top_questions', BotAnswersListItemApiView)
 router.register(r'api/messages', BotMessageApiView)
 # router.register(r'api/messages/rate', RateMessageApiView)
 router.register(r'api/accounts/profile', ProfileApiView)
-
+# router.register(r'api/chat', StartConvoAPIView)
 
 urlpatterns = [
     path("chat/", include("lab.urls")),

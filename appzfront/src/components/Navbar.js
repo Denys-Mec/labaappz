@@ -1,11 +1,12 @@
 import "../style/navbar.css";
 import "../style/general.css";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import StartGuide from "./StartGuide";
-
+import { UsernameContext } from '../App';
 const Navbar = () => {
+    const { username, setUsername } = useContext(UsernameContext);
     const location = useLocation();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isShowed, setIsShowed] = useState(true);
@@ -32,6 +33,7 @@ const Navbar = () => {
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
+        console.log(username)
         const handleResize = () => {
             setIsMobile(window.innerWidth < 1024);
         };
@@ -94,7 +96,7 @@ const Navbar = () => {
                     <div className={"expanded-nav"}>
                         <Link className={"expanded-nav-item"} onClick={StartGuide} to={""}>Інструкція</Link>
                         <Link className={"expanded-nav-item"} to={"/questions"}>Питання</Link>
-                        <Link className={"expanded-nav-item"} to={"/chatbot"}>Чат-бот</Link>
+                        <Link className={"expanded-nav-item"} to={username==='admin'?"/chatbotadmin":"/chatbot"}>Чат-бот</Link>
                     </div>
                 )}
                 <Link className={"nav-item"} onClick={logout} to="/">
