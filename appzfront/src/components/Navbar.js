@@ -80,24 +80,30 @@ const Navbar = () => {
                     <img className={"avatar"} src={sessionStorage.getItem("image")} alt={"avatar"} />
                     <span>{sessionStorage.getItem("name")}</span>
                 </div>
-                <Link className={"nav-item"} to="">
+                {username !== 'admin' && (<>
+                    <Link className={"nav-item"} to="">
                     Головна
-                </Link>
-                <Link className={"nav-item"} to="">
-                    Пацієнти
-                </Link>
-                <Link className={location.pathname === '/questionnaires' ? 'nav-item active-link' : 'nav-item'} to="/questionnaires">
-                    Опитувальники
-                </Link>
-                <span className={(location.pathname === '/questions' || location.pathname === '/chatbot') ? 'nav-item help-nav active-link' : 'nav-item help-nav'} onClick={handleToggle}>
-                    Допомога
+                    </Link>
+                    <Link className={"nav-item"} to="">
+                        Пацієнти
+                    </Link>
+                    <Link className={location.pathname === '/questionnaires' ? 'nav-item active-link' : 'nav-item'} to="/questionnaires">
+                        Опитувальники
+                    </Link>
+                </>
+                )}
+                {username === 'admin' && (<Link className={"nav-item"} to={"/chatbotadmin"}>Чат підтримки</Link>)}
+                {username !== 'admin' && (
+                <><span className={(location.pathname === '/questions' || location.pathname === '/chatbot') ? 'nav-item help-nav active-link' : 'nav-item help-nav'} onClick={handleToggle}>Допомога
                 </span>
                 {isExpanded && (
                     <div className={"expanded-nav"}>
                         <Link className={"expanded-nav-item"} onClick={StartGuide} to={""}>Інструкція</Link>
                         <Link className={"expanded-nav-item"} to={"/questions"}>Питання</Link>
-                        <Link className={"expanded-nav-item"} to={username==='admin'?"/chatbotadmin":"/chatbot"}>Чат-бот</Link>
+                        <Link className={"expanded-nav-item"} to={"/chatbot"}>Чат-бот</Link>
                     </div>
+                )}
+                </>
                 )}
                 <Link className={"nav-item"} onClick={logout} to="/">
                     Вихід

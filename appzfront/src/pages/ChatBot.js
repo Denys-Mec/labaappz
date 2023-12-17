@@ -18,6 +18,7 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
     const [chatSocket, setChatSocket] = useState(null);
   
     useEffect(() => {
+      setUsername(username)
       console.log(username)
       const socket = new WebSocket(
         'ws://' + '127.0.0.1:8000' + '/ws/chat/' + username + '/'
@@ -148,8 +149,12 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
               <div
                 key={index}
                 className={message.isUser ? 'user-message' : 'bot-message'}
-                onClick={() => handleTopicClick(message)}
-                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                    // Check if the class is 'bot-message' before executing the logic
+                    if (!message.isUser) {
+                      handleTopicClick(message);
+                    }
+                  }}
               >
                 <div className="message-container">
                   {message.isUser ? (
