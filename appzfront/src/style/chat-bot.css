@@ -1,30 +1,32 @@
-  /* Add this style to make the chat-bot container a flex column */
-  .chat-bot {
-    display: flex;
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.chat-bot {
+  flex: 1 0 100px;
+  overflow-y: auto;
+}
+
+.chat-input {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* padding: 10px;
+  margin-bottom: 25px; */
+}
+ .chat-container {
+    height: 90%; 
     flex-direction: column;
-    overflow: hidden;
-  }
-  .chat-container {
-    height: 65vh; 
-    width: 150vh; 
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .chat-messages {
-    width: 100%; 
-    height: 100%;
-    overflow-y: auto;
-  }
-  
-  .chat-input {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 25px;
-    /* height: 30vh; */
-  }
+  } 
+
   
   input {
     flex: 1;
@@ -39,20 +41,19 @@
   input[readonly]:focus {
     outline: none;
   }
+
   .user-message,
   .bot-message,
   .chat-bot-button,
   .footer-button{
     font-size: 24px;
-    padding: 15px;
-    background-color: #4B7247;
+    padding: 10px;
   }
 
   .footer-button,
-  .chat-bot-button,
-  .user-message{
+  .chat-bot-button{
     color: #fff;
-    cursor: pointer;
+    /* cursor: pointer; */
     border: none;
     border-radius: 5px;
   }
@@ -61,27 +62,58 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column; 
+    width: 100%; 
+    height: 100%;
   }
   
   .user-message,
   .bot-message {
-    max-width: 80%; /* Set a maximum width for messages */
-    margin-bottom: 8px;
-    border-radius: 10px;
-    word-wrap: break-word; /* Allow long words to wrap */
+    max-width: 80%;
+    margin-bottom: 12px;
+    word-wrap: break-word; 
   }
   
   .user-message {
-    color: #fff;
-    background-color: #6f9b6a;
-    align-self: flex-end; /* Align user messages to the right */
+    align-self: flex-end; 
+    cursor: none;
+  }
+
+  .bot-message{
+    align-self: flex-start; 
+    cursor: auto;
   }
   
-  .bot-message {
-    background-color: rgb(253, 226, 168); /* Light yellow background color */
-    align-self: flex-start; /* Align bot messages to the left */
+  .bot-message .text-container {
+    background-color: rgb(253, 226, 168); 
+  }
+    
+  .user-message .text-container {
+    background-color: #6f9b6a;
+    color: #fff
   }
  
+  .text-container{
+    padding: 15px;
+    border-radius: 10px;
+  }
   .footer-button {
     margin-right: 15px;
+  }  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .message-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .timestamp {
+    font-size: 12px;
+    color: #888;
+    text-align: right; 
+    margin-top: 5px;
   }

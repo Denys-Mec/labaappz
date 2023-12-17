@@ -4,10 +4,13 @@ import Header from '../components/Header';
 import '../style/general.css';
 import '../style/chat-bot.css';
 import axios from "axios";
+import userAvatar from '../images/menu-icon.png';
+import botAvatar from '../images/menu-icon.png';
 
 const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
+  const timestamp = new Date().toLocaleTimeString();
   const [messages, setMessages] = useState([
-    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false, display: true },
+    { text: 'Вітаю! Чим я можу вам допомогти?', isUser: false, display: true, timestamp },
   ]);
 
   const [newMessage, setNewMessage] = useState('');
@@ -23,9 +26,10 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
 
     socket.onmessage = function (e) {
       const data = JSON.parse(e.data);
+      console.log(data)
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: data.message, isUser: false, display: false },
+        { text: data.message, isUser: false, display: data.user ? false: true, IsUser: data.user, timestamp},
       ]);
     };
 
@@ -44,19 +48,21 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() === '' || !chatSocket) return;
+    const timestamp = new Date().toLocaleTimeString();
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: newMessage, isUser: true, display: true },
+      { text: newMessage, isUser: true, display: true, timestamp  },
     ]);
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: 'До вас буде підключено адміністратора. Будь ласка, зачекайте.', isUser: false, display: true },
+      { text: 'До вас буде підключено адміністратора. Будь ласка, зачекайте.', isUser: false, display: true, timestamp },
     ]);
 
     chatSocket.send(JSON.stringify({
-      'message': newMessage
+      'message': newMessage,
+      'user': true
     }));
 
     setNewMessage('');
@@ -73,7 +79,6 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
       });
 
       const questions = response.data.results;
-      console.log(questions)
 
       const groupedQuestions = questions.reduce((acc, question) => {
         const { topic_name, question: subquestion, answer } = question;
@@ -85,7 +90,7 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
         }
         return acc;
       }, {});
-      console.log(groupedQuestions)
+
       setMessages((prevMessages) => [
         ...prevMessages,
         ...Object.values(groupedQuestions).map(q => ({
@@ -93,6 +98,7 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
           isUser: false,
           display: true,
           subquestions: q.subquestions,
+          timestamp
         }))
       ]);
     } catch (error) {
@@ -103,29 +109,26 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
   const handleTopicClick = (topic) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: `Ви вибрали тему: ${topic.text}`, isUser: true, display: true},
+      { text: `Ви вибрали тему: ${topic.text}`, isUser: true, display: true, timestamp},
     ]);
 
     if (topic.subquestions && Array.isArray(topic.subquestions)) {
-      console.log(topic)
-
       const subquestionMessages = topic.subquestions.map((q) => ({
         text: q.text,
         isUser: false,
         display: true,
-        answer: q.answers, // Include the answers for each subquestion
+        answer: q.answers,
+        timestamp
       }));
 
       setMessages((prevMessages) => [...prevMessages, ...subquestionMessages]);
     }
     else{
-      console.log(topic)
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: topic.answer, isUser: false, display: true},
+        { text: topic.answer, isUser: false, display: true, timestamp},
       ]);
     }
-    
   };
 
   useImperativeHandle(ref, () => ({
@@ -144,7 +147,25 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
               onClick={() => handleTopicClick(message)}
               style={{ cursor: 'pointer' }}
             >
-              {message.text}
+              <div className="message-container">
+                {message.isUser ? (
+                  <>
+                    <div className='text-container'>
+                      {message.text}
+                      {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
+                    </div>
+                    <img className="avatar" src={userAvatar} alt={"avatar"} />
+                  </>
+                ) : (
+                  <>
+                    <img className="avatar" src={botAvatar} alt={"avatar"} />
+                    <div className='text-container'>
+                      {message.text}
+                      {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           )))}
         </div>
@@ -169,14 +190,15 @@ const ChatBotPage = () => {
   const [inputReadOnly, setInputReadOnly] = useState(true);
   const chatBotRef = useRef();
 
-  const handleToggleInput = () => {
-    setInputReadOnly((prevReadOnly) => !prevReadOnly);
+  const handleToggleInput = (param) => {
+    setInputReadOnly(param);
   };
 
-  const handleGetQuestions = () => {
+  const handleGetQuestions = (param) => {
     if (chatBotRef.current) {
       chatBotRef.current.getQuestions();
     }
+    handleToggleInput(param)
   };
 
   return (
@@ -188,8 +210,8 @@ const ChatBotPage = () => {
           <ChatBot ref={chatBotRef} inputReadOnly={inputReadOnly} setInputReadOnly={setInputReadOnly} />
         </div>
         <div className="footer">
-          <button className="footer-button" onClick={handleGetQuestions}>Список питань</button>
-          <button className="footer-button" onClick={handleToggleInput}>Своє питання</button>
+          <button className="footer-button" onClick={() => handleGetQuestions(true)}>Список питань</button>
+          <button className="footer-button" onClick={() => handleToggleInput(false)}>Своє питання</button>
         </div>
       </div>
     </div>

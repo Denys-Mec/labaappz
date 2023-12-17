@@ -41,9 +41,10 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
-
+        IsUser = text_data_json["user"]
+        print(text_data_json)
         # Отримання поля "staff status" користувача
-            #staff_status = user.is_staff  # Це приклад, можливо, ваше поле має іншу назву
+        # staff_status = user.is_staff  # Це приклад, можливо, ваше поле має іншу назву
 
             # Використання поля "staff status"
         # if staff_status:
@@ -57,12 +58,14 @@ class ChatConsumer(WebsocketConsumer):
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {"type": "chat.message", "message": message}
+            self.room_group_name, {"type": "chat.message", "message": message, "user": IsUser}
         )
 
     # Receive message from room group
     def chat_message(self, event):
         message = event["message"]
+        IsUser = event["user"]
+        print(message)
 
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message}))
+        self.send(text_data=json.dumps({"message": message, "user": IsUser}))
