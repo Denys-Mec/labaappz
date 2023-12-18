@@ -111,28 +111,32 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
     };
   
     const handleTopicClick = (topic) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: `Ви вибрали тему: ${topic.text}`, isUser: true, display: true, timestamp},
-      ]);
-  
-      if (topic.subquestions && Array.isArray(topic.subquestions)) {
-        const subquestionMessages = topic.subquestions.map((q) => ({
-          text: q.text,
-          isUser: false,
-          display: true,
-          answer: q.answers,
-          timestamp
-        }));
-  
-        setMessages((prevMessages) => [...prevMessages, ...subquestionMessages]);
-      }
-      else{
+      if(topic.subquestions || topic.answer){
         setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: topic.answer, isUser: false, display: true, timestamp},
-        ]);
+            ...prevMessages,
+            { text: `Ви вибрали тему: ${topic.text}`, isUser: true, display: true, timestamp},
+          ]);
+      
+          if (topic.subquestions && Array.isArray(topic.subquestions)) {
+            const subquestionMessages = topic.subquestions.map((q) => ({
+              text: q.text,
+              isUser: false,
+              display: true,
+              answer: q.answers,
+              timestamp
+            }));
+            console.log("If first")
+            setMessages((prevMessages) => [...prevMessages, ...subquestionMessages]);
+          }
+          else{
+            console.log(topic)
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { text: topic.answer, isUser: false, display: true, timestamp},
+            ]);
+          }
       }
+     
     };
   
     useImperativeHandle(ref, () => ({

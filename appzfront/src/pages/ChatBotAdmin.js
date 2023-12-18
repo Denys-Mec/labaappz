@@ -4,10 +4,11 @@ import axios from 'axios';
 import '../style/chat-bot.css';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import adminAvatar from '../images/admin-default.png';
 
 const ChatRoom = () => {
+//   const adminAvatar = sessionStorage.getItem("image");
   const userAvatar = sessionStorage.getItem("image");
-  const botAvatar = sessionStorage.getItem("image");
   const timestamp = new Date().toLocaleTimeString();
   const [roomName, setRoomName] = useState('');
   const { username, setUsername } = useContext(UsernameContext);
@@ -19,7 +20,7 @@ const ChatRoom = () => {
   useEffect(() => {
     console.log(messages)
     const chatSocket = new WebSocket(
-        `ws://127.0.0.1:8000/ws/chat/yustin/`
+        'ws://127.0.0.1:8000/ws/chat/yustin/'
       );
     const roomNameData = username 
     setRoomName(roomNameData);
@@ -29,7 +30,7 @@ const ChatRoom = () => {
       console.log(data)
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: data.message, isUser: true, display: true,   timestamp},
+        { text: data.message, isUser: false, display: true,   timestamp},
       ]);
     };
 
@@ -53,32 +54,13 @@ const ChatRoom = () => {
 
     setMessages((prevMessages) => [
         ...prevMessages,
-        { text: newMessage, isUser: false, display: true, timestamp  },
+        { text: newMessage, isUser: true, display: true, timestamp  },
       ]);
 
-    // messageInputDom.value = '';
+    setNewMessage('');
+
   };
 
-//   return (
-//     <div>
-//       <textarea id="chat-log" cols="100" rows="20" value={chatLog} readOnly />
-//       <br />
-//       <input
-//         id="chat-message-input"
-//         type="text"
-//         size="100"
-//         value={newMessage}
-//         onChange={(e) => setNewMessage(e.target.value)}
-//       />
-//       <br />
-//       <input
-//         id="chat-message-submit"
-//         type="button"
-//         value="Send"
-//         onClick={handleSendMessage}
-//       />
-//     </div>
-//   );
   return (
     <div className={'page'}>
     <Navbar />
@@ -101,11 +83,11 @@ const ChatRoom = () => {
                       {message.text}
                       {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
                     </div>
-                    <img className="avatar" src={userAvatar} alt={"avatar"} />
+                    <img className="avatar" src={adminAvatar} alt={"avatar"} />
                   </>
                 ) : (
                   <>
-                    <img className="avatar" src={botAvatar} alt={"avatar"} />
+                    <img className="avatar" src={userAvatar} alt={"avatar"} />
                     <div className='text-container'>
                       {message.text}
                       {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
