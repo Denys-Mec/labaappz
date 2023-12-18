@@ -96,6 +96,7 @@ const Questions = () => {
             steps={joyrideConfig.steps2}
             continuous={true}
             callback={handleJoyrideCallback}
+            run={sessionStorage.getItem("enter") !== "3"}
         />
     <div className={'page'}>
       <Navbar />

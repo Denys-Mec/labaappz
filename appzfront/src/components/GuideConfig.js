@@ -153,7 +153,6 @@ const joyrideConfig = {
 
     handleJoyrideCallback: (data, navigate) => {
         let { index } = data;
-        console.log(index)
         if (index === 7) {
             navigate("/questions")
         } else if(index === 2 && document.location.pathname === "/questions") {

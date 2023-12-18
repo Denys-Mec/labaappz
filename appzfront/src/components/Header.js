@@ -87,6 +87,7 @@ const Header = ({ content, classes }) => {
             });
         })
     }
+
     const handleTranslateButtonClick = () => {
         setTranslateVisible((prevVisible) => !prevVisible);
         if (!translateVisible) {
@@ -99,6 +100,7 @@ const Header = ({ content, classes }) => {
           window.googleTranslateElementInit = googleTranslateElementInit;
         }
       };
+
     return (
         <div className={"header"}>
             <h1 className={"page-title"}>{content}</h1>
