@@ -65,7 +65,7 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
   
       chatSocket.send(JSON.stringify({
         'message': newMessage,
-        'user': true
+        'user': true,
       }));
   
       setNewMessage('');
@@ -166,11 +166,11 @@ const ChatBot = forwardRef(({ inputReadOnly, setInputReadOnly }, ref) => {
                         {message.text}
                         {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
                       </div>
-                      <img className="avatar" src={userAvatar} alt={"avatar"} />
+                      <img className="avatar-chat" src={userAvatar} alt={"avatar"} />
                     </>
                   ) : (
                     <>
-                      <img className="avatar" src={botAvatar} alt={"avatar"} />
+                      <img className="avatar-chat" src={botAvatar} alt={"avatar"} />
                       <div className='text-container'>
                         {message.text}
                         {message.timestamp && <div className="timestamp">{message.timestamp}</div>}
