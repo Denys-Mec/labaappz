@@ -31,7 +31,7 @@ const Header = ({ content, classes }) => {
     const helpClick = () => {
         let text= ""
 
-        axios.get('http://127.0.0.1:8000/api/tooltipe/', {
+        axios.get('http://127.0.0.1:8000/api/tooltipe/?page_size=20', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Token ' + sessionStorage.getItem("token")

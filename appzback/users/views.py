@@ -20,7 +20,7 @@ from django.middleware import csrf
 class ProfileApiView(viewsets.ModelViewSet):
 	queryset = Profile.objects.all()
 	serializer_class = ProfileSerializer
-	http_method_names = ['get']
+	http_method_names = ['get', 'put']
 	authentication_classes=[TokenAuthentication]
 	permission_classes=[IsAuthenticated]
 	pagination_class = None

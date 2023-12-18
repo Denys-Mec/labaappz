@@ -13,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Profile
-		fields = ['image', 'full_name', 'username', 'email', 'role', 'is_finished_guide']
+		fields = ['id', 'image', 'full_name', 'username', 'email', 'role', 'is_finished_guide']
 
 class UsersAllSerializer(serializers.ModelSerializer):
 	username = serializers.SerializerMethodField('getUserName')

@@ -58,7 +58,6 @@
   .chat-bot-button{
     color: #fff;
     border: none;
-    border-radius: 5px;
   }
 
   .chat-messages {
@@ -138,11 +137,10 @@
   }
   
   .footer-button {
-    background-color: #4B7247;
+    background-color: #6A9666;
     color: #fff;
-    padding: 15px;
+    padding: 5px 20px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     margin-right: 15px;
   }

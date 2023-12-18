@@ -32,10 +32,21 @@ const SignIn = () => {
                         sessionStorage.setItem("name", res.data[0].full_name);
                         sessionStorage.setItem("image", res.data[0].image);
                         sessionStorage.setItem("token", response.data.token);
-                        sessionStorage.setItem("enter", "1");
-                        
+                        if (!res.data[0].is_finished_guide) {
+                            sessionStorage.setItem("enter", "1");
+                            axios.put("http://127.0.0.1:8000/api/accounts/profile/" + res.data[0].id + "/",
+                                { is_finished_guide: true },
+                                {
+                                    headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Token ' + response.data.token
+                                }
+                            }).then()
+                        }
+                        else
+                            sessionStorage.setItem("enter", "0");
                         navigate(username !== 'admin' ? "/questionnaires" : "/chatbotadmin")
-                    })
+                    }).catch(error => alert("Error user"));
                     
                     if(username === 'admin'){
                         axios.post('http://127.0.0.1:8000/api/chat/',  { username: 'yustin'}, {
@@ -45,13 +56,13 @@ const SignIn = () => {
                             },
                         }).then( res => {
                             console.log(res.data)
-                        })
+                        }).catch(error => alert("Error user"))
                     }
                 }
                 else
                     alert("Bad user")
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => alert("Error user"));
     }
     return (
         <div className={"content"}>

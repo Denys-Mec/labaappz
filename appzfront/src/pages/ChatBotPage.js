@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useRef, useImperativeHandle, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import '../style/general.css';
@@ -32,7 +32,7 @@ const ChatBotPage = () => {
             steps={joyrideConfig.steps3}
             continuous={true}
             callback={handleJoyrideCallback}
-            run={sessionStorage.getItem("enter") !== "3"}
+            run={sessionStorage.getItem("enter") === "2"}
         />
     <div className={'page'}>
       <Navbar />
