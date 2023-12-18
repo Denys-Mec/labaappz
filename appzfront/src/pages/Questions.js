@@ -93,10 +93,10 @@ const Questions = () => {
   return (
       <>
         <Joyride
-            steps={joyrideConfig.steps}
+            steps={joyrideConfig.steps2}
             continuous={true}
-            showProgress={true}
-            callback={handleJoyrideCallback}/>
+            callback={handleJoyrideCallback}
+        />
     <div className={'page'}>
       <Navbar />
       <div className={'content'}>

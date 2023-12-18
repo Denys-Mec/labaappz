@@ -87,14 +87,14 @@ const Navbar = () => {
                     <Link className={"nav-item"} to="">
                         Пацієнти
                     </Link>
-                    <Link className={location.pathname === '/questionnaires' ? 'nav-item active-link' : 'nav-item'} to="/questionnaires">
+                    <Link id={"current-step-of-guide"} className={location.pathname === '/questionnaires' ? 'nav-item active-link' : 'nav-item'} to="/questionnaires">
                         Опитувальники
                     </Link>
                 </>
                 )}
                 {username === 'admin' && (<Link className={"nav-item"} to={"/chatbotadmin"}>Чат підтримки</Link>)}
                 {username !== 'admin' && (
-                <><span className={(location.pathname === '/questions' || location.pathname === '/chatbot') ? 'nav-item help-nav active-link' : 'nav-item help-nav'} onClick={handleToggle}>Допомога
+                <><span id={"help-step-of-guide"} className={(location.pathname === '/questions' || location.pathname === '/chatbot') ? 'nav-item help-nav active-link' : 'nav-item help-nav'} onClick={handleToggle}>Допомога
                 </span>
                 {isExpanded && (
                     <div className={"expanded-nav"}>

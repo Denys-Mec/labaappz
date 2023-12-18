@@ -34,7 +34,7 @@ const SignIn = () => {
                         sessionStorage.setItem("token", response.data.token);
                         sessionStorage.setItem("enter", "1");
                         
-                        navigate(username !== 'admin' ? "/questionnaires": "/chatbotadmin")
+                        navigate(username !== 'admin' ? "/questionnaires" : "/chatbotadmin")
                     })
                     
                     if(username === 'admin'){

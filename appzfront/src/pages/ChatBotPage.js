@@ -4,6 +4,9 @@ import Header from '../components/Header';
 import '../style/general.css';
 import '../style/chat-bot.css';
 import ChatBot from './ChatBot';
+import joyrideConfig from "../components/GuideConfig";
+import Joyride from "react-joyride";
+import {useNavigate} from "react-router-dom";
 const ChatBotPage = () => {
   const [inputReadOnly, setInputReadOnly] = useState(true);
   const chatBotRef = useRef();
@@ -19,7 +22,18 @@ const ChatBotPage = () => {
     handleToggleInput(param)
   };
 
+  const navigate = useNavigate();
+
+  const handleJoyrideCallback = (data) => joyrideConfig.handleJoyrideCallback(data, navigate);
+
   return (
+      <>
+        <Joyride
+            steps={joyrideConfig.steps3}
+            continuous={true}
+            callback={handleJoyrideCallback}
+            run={sessionStorage.getItem("enter") !== "3"}
+        />
     <div className={'page'}>
       <Navbar />
       <div className={'content-page'}>
@@ -33,6 +47,7 @@ const ChatBotPage = () => {
         </div>
       </div>
     </div>
+        </>
   );
 };
 
